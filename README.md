@@ -1,9 +1,13 @@
-# glitchr/omnisong
+# omniscient/omnisong
 
 One contract for listening to a musician's catalogue - the Omnibus of records. Listening, not
 publishing: where a recording is, what is on it, the previews and the players, read from the
 services that know it. And the label first: a musician's site shows "released by ES-DUR, buy it
 there" before "listen on Spotify".
+
+Published as `omniscient/omnisong` (formerly `glitchr/omnisong`, which this package replaces: a
+`composer.json` that still requires the old name keeps resolving to this package, never both).
+`omniscient/` is the vendor of every family's core; the providers keep theirs (`omnisong/itunes`...).
 
 ```php
 $release = $catalog->release(Reference::upc('4015372820954'), new Label('ES-DUR', 'https://www.es-dur.de'));
@@ -40,7 +44,7 @@ Music, then the stores. `toArray()` / `fromArray()` store them as URLs by platfo
 ## Plain PHP
 
 ```sh
-composer require glitchr/omnisong omnisong/itunes
+composer require omniscient/omnisong omnisong/itunes
 ```
 
 ```php
@@ -144,7 +148,7 @@ docker compose run --rm omnisong test                     # every package's test
 
 ## Responsibility
 
-`glitchr/omnisong` and its `omnisong/*` providers are independent, unofficial clients: none is
+`omniscient/omnisong` and its `omnisong/*` providers are independent, unofficial clients: none is
 affiliated with, endorsed by or sponsored by the services it reaches. Each service keeps its own
 terms (keys, promotional use and attribution, rate limits), named with a link in the
 "Responsibility" section of the README of each provider that reaches one. The MIT licence covers

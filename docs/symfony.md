@@ -3,7 +3,7 @@
 Omnisong runs without a framework ([installation](installation.md)); in a Symfony application its
 bundle does the wiring. Its components - `symfony/config`, `symfony/dependency-injection`,
 `symfony/http-kernel`, and `twig/twig` for the template functions - are not required by
-`glitchr/omnisong`: the application has them, and nothing of them is loaded outside Symfony.
+`omniscient/omnisong`: the application has them, and nothing of them is loaded outside Symfony.
 
 Register `Omnisong\Bridge\Symfony\OmnisongBundle` (no Flex recipe):
 

@@ -1,5 +1,5 @@
 {
-    "name": "glitchr/omnisong",
+    "name": "omniscient/omnisong",
     "type": "library",
     "description": "Omnisong: one contract for listening to a musician's catalogue - releases, tracks, previews, the links to every platform with the label first, and the embeds that play from them - and its Symfony bundle.",
     "keywords": ["music", "discography", "smart-links", "odesli", "itunes", "player", "omnisong"],
@@ -16,6 +16,9 @@
         "symfony/http-client": "^6.4|^7.0|^8.0",
         "symfony/http-kernel": "^6.4|^7.0|^8.0",
         "twig/twig": "^3.0"
+    },
+    "replace": {
+        "glitchr/omnisong": "self.version"
     },
     "suggest": {
         "omnisong/odesli": "Odesli (song.link): the same song or album on every platform, by a URL or a platform's id",
