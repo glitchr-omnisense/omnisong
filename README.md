@@ -142,9 +142,14 @@ docker compose run --rm omnisong test                     # every package's test
 
 ## Documentation
 
+- [The manual's home](docs/index.md): what it is, the catalogues
 - [Installation and first calls](docs/installation.md): plain PHP first
-- [Symfony](docs/symfony.md)
-- [The Docker harness](docs/harness.md)
+- [Symfony](docs/symfony.md), [Laravel](docs/laravel.md)
+- [Concepts](docs/concepts.md): catalogues, the registry, the aggregator, the models, the platforms
+- [Catalogues and the aggregator](docs/usage-catalog.md), [Players](docs/usage-players.md)
+- [Configuration reference](docs/configuration.md), [Errors](docs/errors.md), [Testing](docs/testing.md)
+- [The Docker harness](docs/harness.md), [Writing a catalogue](docs/providers.md)
+- [Verified, and not](docs/verified.md)
 
 ## Responsibility
 

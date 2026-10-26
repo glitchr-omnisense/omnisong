@@ -1,3 +1,8 @@
+---
+title: The Docker harness
+order: 70
+---
+
 # The Docker harness
 
 `docker/` runs this package with every `omnisong/*` catalogue installed - from GitHub (branch
@@ -75,3 +80,30 @@ itself, whatever the script does.
 
 The image is `php:8.4-cli-alpine` with Composer; the harness's packages live in the `harness`
 volume of the `omnisong-harness` project.
+
+## The entrypoint
+
+`docker/entrypoint.sh` runs `docker/harness/setup.php` first: it writes the harness's
+`composer.json` and `phpunit.xml` in the `harness` volume - this core from its checkout, each
+catalogue from its checkout under `OMNISONG_PLUGINS` when one is there (its `composer.json` naming
+`omnisong/<slug>`), from `https://github.com/glitchr-omnisense/omnisong-<slug>.git` (branch 1.x)
+otherwise - and rewrites them only when they change. Then `composer install` the first time,
+`composer update` when `composer.json` is newer than the lock, and the command:
+
+| First argument | Runs |
+|---|---|
+| `test` | `vendor/bin/phpunit` with the other arguments: every package's tests (suites `core`, `odesli`, `itunes`) |
+| `bare` | `docker/harness/bin/bare` with the other arguments (`--recorded`, `--json`) |
+| `composer`, `sh`, `php` | that command as it is |
+| anything else, or nothing | the console, `docker/harness/bin/omnisong` (default: `catalogs`) |
+
+The console's settings come from `docker/.env` (copied from `.env.dist`, git-ignored):
+`ODESLI_API_KEY`, `ODESLI_COUNTRY` (`DE` in `.env.dist`), `ITUNES_COUNTRY` (`de`; `us` when unset),
+and `OMNISONG_PLUGINS`. A catalogue is configured when its factory is installed; an option left
+empty is not passed, so the factory's default applies. The console's errors: a reference it cannot
+parse or a configuration error exits 2 (invalid), a catalogue's error exits 1, each with its
+message.
+
+The image (`omnisense/omnisong-harness`) is built from `docker/Dockerfile` the first time
+`docker compose run` needs it; the first run also installs the packages into the volume, which
+needs the network.
