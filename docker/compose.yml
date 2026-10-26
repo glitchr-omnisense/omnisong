@@ -1,4 +1,4 @@
-# omniscient/omnisong with every catalogue package, against the real services:
+# omnisense/omnisong with every catalogue package, against the real services:
 #
 #   cp .env.dist .env                                        # an Odesli key if you have one; iTunes needs none
 #   docker compose run --rm omnisong catalogs                # which catalogues are installed and configured
@@ -17,7 +17,7 @@ name: omnisong-harness
 services:
   omnisong:
     build: .
-    image: omniscient/omnisong-harness
+    image: omnisense/omnisong-harness
     env_file:
       - path: .env
         required: false

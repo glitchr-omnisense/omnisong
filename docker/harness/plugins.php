@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Every catalogue package: its slug (omnisong/<slug>, github.com/glitchr-studio/omnisong-<slug>),
+ * Every catalogue package: its slug (omnisong/<slug>, github.com/glitchr-omnisense/omnisong-<slug>),
  * its tests' namespace and its factory class.
  */
 return [

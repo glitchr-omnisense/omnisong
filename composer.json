@@ -1,5 +1,5 @@
 {
-    "name": "omniscient/omnisong",
+    "name": "omnisense/omnisong",
     "type": "library",
     "description": "Omnisong: one contract for listening to a musician's catalogue - releases, tracks, previews, the links to every platform with the label first, and the embeds that play from them - and its Symfony bundle.",
     "keywords": ["music", "discography", "smart-links", "odesli", "itunes", "player", "omnisong"],
@@ -18,6 +18,7 @@
         "twig/twig": "^3.0"
     },
     "replace": {
+        "omniscient/omnisong": "self.version",
         "glitchr/omnisong": "self.version"
     },
     "suggest": {

@@ -1,7 +1,7 @@
 # Installation and first calls
 
 ```sh
-composer require omniscient/omnisong omnisong/itunes  # no key
+composer require omnisense/omnisong omnisong/itunes  # no key
 composer require omnisong/odesli                      # with a key from developers@song.link
 ```
 
