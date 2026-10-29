@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Added
+
+- `Omnisong\Http\Redaction`: a request's secrets (`secrets()`), a text without them (`text()`), a
+  failure's copy to wrap in its place (`copy()`), a trace without arguments (`withoutArguments()`),
+  for the catalogues that call with a key.
+
 ### Fixed
 
 - `Catalog::links()` asks a catalogue that cannot read the reference (Odesli and an ISRC) by the

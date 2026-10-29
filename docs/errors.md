@@ -17,6 +17,11 @@ extends `\Throwable`), except the `\InvalidArgumentException` of `Reference::par
 | `RateLimitedException` | `UnavailableException` | the service asks to slow down |
 | `\InvalidArgumentException` | - | `Reference::parse()` read neither a URL, a UPC/EAN nor an ISRC |
 
+A catalogue that calls with a key (Odesli's `key=`) keeps it out of what it throws: the HTTP client's
+message with the key masked (`key=***`), the previous exception a copy of the client's
+(`Http\Redaction::copy()`: the same class and code), no trace of the chain keeping its arguments,
+where the query stood (`zend.exception_ignore_args` off).
+
 Not found is never an exception: `null`, an empty `PlatformLinks`, an empty list.
 
 ## Properties and messages
