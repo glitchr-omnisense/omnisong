@@ -108,7 +108,10 @@ final class Catalog implements CatalogInterface
     /**
      * Each catalogue's links, asked by the first reference it can read. One
      * that can read none (Odesli: neither a UPC nor an ISRC) is asked again
-     * by the platform ids the others' links carry (the iTunes id).
+     * by the platform ids the others' links carry (the iTunes id), as an
+     * album: those links name the release that holds the recording (iTunes
+     * answers an ISRC with its album's links), so an id learnt from them is
+     * the release's, which a lookup of a song by it would not find.
      *
      * @param list<Reference> $references
      */
@@ -125,7 +128,7 @@ final class Catalog implements CatalogInterface
             $learnt = [];
             foreach ($links as $link) {
                 if (null !== $link->id) {
-                    $learnt[] = Reference::id($link->platform, $link->id, $references[0]->type ?? Reference::ALBUM, $references[0]->country);
+                    $learnt[] = Reference::id($link->platform, $link->id, Reference::ALBUM, $references[0]->country);
                 }
             }
             foreach ($learnt ? $pending : [] as $catalog) {

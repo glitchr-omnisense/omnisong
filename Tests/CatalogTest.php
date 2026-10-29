@@ -119,6 +119,19 @@ final class CatalogTest extends TestCase
         self::assertSame(['odesli links '.self::UPC, 'itunes links '.self::UPC, 'odesli links apple_music:'.self::ITUNES_ID], StubCatalog::$log);
     }
 
+    /** iTunes answers an ISRC with its album's links: the id learnt is the album's, and Odesli is asked for an album. */
+    public function testAnIdLearntFromAnIsrcsLinksIsAskedAsTheAlbumItNames(): void
+    {
+        $itunes = new StubCatalog('itunes', static fn (Reference $r) => new PlatformLinks([new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/perspectives-concertantes/1793146044', self::ITUNES_ID)]));
+        $odesli = self::odesli();
+        $links = (new Catalog([$odesli, $itunes]))->links(Reference::isrc('DEAR42500001'));
+
+        self::assertSame(['spotify', 'apple_music', 'tidal'], array_keys($links->toArray()));
+        $learnt = end($odesli->asked);
+        self::assertSame(self::ITUNES_ID, $learnt->id);
+        self::assertSame(Reference::ALBUM, $learnt->type, 'the album\'s id, asked as an album: Odesli would look a song up by it');
+    }
+
     public function testUnknownEverywhereIsNull(): void
     {
         $catalog = new Catalog([self::itunes()]);

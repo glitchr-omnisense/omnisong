@@ -108,10 +108,9 @@ Every catalogue is asked `links()` by the reference. One that can read it adds i
 several give a link to the same platform, the catalogue asked first wins. A catalogue that can read
 none of the references (Odesli and a UPC or an ISRC) is asked again, once every other catalogue has
 answered, by the platform ids those links carry - in the links' order, so Apple Music's id before
-the iTunes Store's - as `Reference::id()` of the reference's type (album when it has none).
-
-> [!WARNING]
-> Known defect: `links(Reference::isrc(...))` learns the iTunes collection id (the album's, as iTunes answers an ISRC with the album's links) and asks Odesli `type=song` with it (`?platform=appleMusic&type=song&id=1793146044`, checked on a mock on 2026-10-26), where the album's id should be asked as an album or the track's id as a song.
+the iTunes Store's - as `Reference::id()` of an album: those links name the release that holds the recording (iTunes
+answers an ISRC with its album's links), so `links(Reference::isrc(...))` asks Odesli
+`?platform=appleMusic&type=album&id=1793146044` and gives the album's links on every platform.
 
 The `$label` argument is optional; given, its links go first ([Concepts](concepts.md#links)).
 
