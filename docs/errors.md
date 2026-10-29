@@ -34,8 +34,7 @@ Not found is never an exception: `null`, an empty `PlatformLinks`, an empty list
 message is `[<catalog>] rate limited, retry in <n> s`, or `[<catalog>] rate limited` without one. Its
 `status` is always 429, also when the service answered 403 (iTunes).
 
-> [!WARNING]
-> Known defect: `Retry-After` is read with `(int)`: written as an HTTP date, it gives `retryAfter = 0`, where the seconds until that date (or null) are expected (iTunes and Odesli alike).
+`retryAfter` reads `Retry-After` in seconds or as an HTTP date (the seconds until then, at least 1); null without the header.
 
 `NotSupportedException` has two named constructors, whose messages say which:
 `NotSupportedException::reference('odesli', $reference)` (`The "odesli" catalogue cannot look up

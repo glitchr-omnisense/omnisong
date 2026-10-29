@@ -121,7 +121,7 @@ final class Embedder implements EmbedderInterface
         }
         $query = ['url' => $url, 'auto_play' => $o->autoplay ? 'true' : 'false', 'visual' => 'false', 'show_comments' => 'false', 'hide_related' => 'true'];
         if ($o->color) {
-            $query['color'] = '%23'.ltrim($o->color, '#');
+            $query['color'] = '#'.ltrim($o->color, '#'); // http_build_query() encodes it: %23
         }
 
         return ['https://w.soundcloud.com/player/?'.http_build_query($query), $o->compact ? 20 : 166];

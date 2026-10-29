@@ -48,7 +48,8 @@ the failures' exceptions, an application's own catalogue, a test case.
   `OmnisongException` family ([Concepts](concepts.md#references)), Odesli asked `type=song` with an
   album's id for an ISRC ([Catalogues](usage-catalog.md#links)), SoundCloud's colour encoded twice
   ([Players](usage-players.md#per-platform)), `Retry-After` as a date read as 0
-  ([Errors](errors.md#properties-and-messages)).
+  ([Errors](errors.md#properties-and-messages)). Fixed since, each with its test: the exception,
+  the colour, `Retry-After`.
 
 ## Responsibility
 

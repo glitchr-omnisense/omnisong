@@ -116,8 +116,7 @@ UPC/EAN; two letters, three letters or digits and seven digits (dashes ignored) 
 else is an `\InvalidArgumentException` (`"hello" is neither a URL, a UPC/EAN nor an ISRC.`), and so
 is a UPC written with spaces: `parse()` does not strip them, `upc()` does.
 
-> [!WARNING]
-> Known defect: `Reference::parse()` throws a plain `\InvalidArgumentException`, which does not implement `OmnisongException`, where the exception's docblock says every exception Omnisong throws does: a `catch (OmnisongException)` around a parse lets it through.
+`Reference::parse()` throws an `Omnisong\Exception\InvalidReferenceException` for a value it cannot read: an `OmnisongException`, and an `\InvalidArgumentException` still.
 
 | Property | Type | |
 |---|---|---|

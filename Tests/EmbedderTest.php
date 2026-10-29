@@ -70,7 +70,8 @@ final class EmbedderTest extends TestCase
     {
         $src = self::src(Platform::SOUNDCLOUD, 'https://soundcloud.com/artist/track', new EmbedOptions(color: 'ff5500'));
         self::assertStringStartsWith('https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fartist%2Ftrack&auto_play=false', $src);
-        self::assertStringContainsString('color=%2523ff5500', $src);
+        self::assertStringContainsString('color=%23ff5500', $src, 'the colour encoded once: SoundCloud reads #ff5500');
+        self::assertStringNotContainsString('%2523', $src);
     }
 
     public function testWhatHasNoPlayerHasNoEmbed(): void

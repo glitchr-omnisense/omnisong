@@ -67,7 +67,7 @@ new EmbedOptions(string $theme = 'light', bool $compact = false, bool $autoplay 
 | `compact` | bool | `false` | the smaller player ([heights](usage-players.md#per-platform)) |
 | `autoplay` | bool | `false` | YouTube (`autoplay=1`) and SoundCloud (`auto_play=true`) only |
 | `country` | string or null | `null` | Apple Music: the store in the embed URL, over the one in the link |
-| `color` | string or null | `null` | SoundCloud: a hex colour, with or without `#` (see the [known defect](usage-players.md#per-platform)) |
+| `color` | string or null | `null` | SoundCloud: a hex colour, with or without `#` |
 
 In Symfony, `omnisong.player.theme` and `omnisong.player.country` set the embedder's defaults;
 `compact`, `autoplay` and `color` have no key there ([Symfony](symfony.md#configuration)).

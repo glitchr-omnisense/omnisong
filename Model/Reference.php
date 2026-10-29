@@ -62,7 +62,7 @@ final class Reference
             return self::isrc($value, $country);
         }
 
-        throw new \InvalidArgumentException(\sprintf('"%s" is neither a URL, a UPC/EAN nor an ISRC.', $value));
+        throw new \Omnisong\Exception\InvalidReferenceException(\sprintf('"%s" is neither a URL, a UPC/EAN nor an ISRC.', $value));
     }
 
     public function withCountry(?string $country): self

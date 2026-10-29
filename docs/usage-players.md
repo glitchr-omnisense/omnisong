@@ -90,9 +90,6 @@ https://open.spotify.com/search/foo
 Spotify's player is built for an episode or a show too, although `Platform::fromUrl()` names any
 `spotify.com` URL Spotify. YouTube has no theme: the dark option changes nothing there.
 
-> [!WARNING]
-> Known defect: SoundCloud's `color` is encoded twice: `color: 'ff5500'` gives `color=%2523ff5500` in the `src` (SoundCloud reads `%23ff5500`), where `color=%23ff5500` (`#ff5500`) is expected - checked on 2026-10-26.
-
 ## Content-Security-Policy
 
 `Embed::$src` names the host a page's `frame-src` must allow. The hosts, by platform:

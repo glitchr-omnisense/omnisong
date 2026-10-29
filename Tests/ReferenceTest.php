@@ -8,6 +8,17 @@ use PHPUnit\Framework\TestCase;
 
 final class ReferenceTest extends TestCase
 {
+    /** What parse() cannot read is an OmnisongException, as every exception Omnisong throws (and still an \InvalidArgumentException). */
+    public function testAnUnreadableValueIsAnOmnisongException(): void
+    {
+        try {
+            Reference::parse('neither a link nor a code');
+            self::fail('parsed');
+        } catch (\Omnisong\Exception\OmnisongException $e) {
+            self::assertInstanceOf(\InvalidArgumentException::class, $e);
+        }
+    }
+
     public function testAUrlIsRead(): void
     {
         $reference = Reference::parse(' https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy ', 'DE');
