@@ -23,7 +23,8 @@ label first: a musician's site shows "released by ES-DUR, buy it there" before "
 `Player\Embedder`, which turns a link into the platform's own iframe from its public embed URL, with
 no key and no call.
 
-The core needs no framework: it requires `symfony/http-client-contracts` and nothing else; each
+The core needs no framework: it requires `symfony/http-client-contracts` and `omnisense/contracts`
+(the kernel of the omni families: usage policies and their guard) and nothing else; each
 catalogue package requires `symfony/http-client`, a library that stands alone. A Symfony bundle and
 a Twig extension are included for applications that want the wiring done ([Symfony](symfony.md)).
 
@@ -72,6 +73,8 @@ and SoundCloud ([Players](usage-players.md)).
 - Usage: [catalogues and the aggregator](usage-catalog.md), [players](usage-players.md).
 - [Configuration reference](configuration.md): every option of every factory, of the registry and
   of the embedder.
+- [Usage policies](policies.md): each catalogue's limits and rights as its package declares them, the
+  guard, a site's tightening, the platforms' badge and logo rules.
 - [Errors](errors.md): the exceptions and when each is thrown.
 - [Testing](testing.md): testing an application that uses Omnisong.
 - [The Docker harness](harness.md): every catalogue installed, a console to call them.

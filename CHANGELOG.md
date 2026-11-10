@@ -4,6 +4,21 @@
 
 ### Added
 
+- On `omnisense/contracts`, the kernel of the omni families: `Config`, `Http\Redaction` and the
+  exceptions sit on the kernel's (`OmnisongException` extends its `ExceptionInterface`,
+  `InvalidConfigException` and `NotSupportedException` its own, `\LogicException`s still), the public
+  API unchanged. Usage policies: each catalogue's as its package declares it (`policy.json`,
+  `DeclaresUsagePolicyInterface`), tightened by an entry's `policy`, checked against its `usage`;
+  `Registry::guarded()`, `catalog()`, `guard()`, `policy()`, `policies()`, a shared limiter as its
+  third argument; `Policy\GuardedCatalog` (a call over a limit or during a wait never made, a
+  `RateLimitedException` whose previous is the new `UsageLimitReachedException`; counted by the
+  requests sent, `Policy\CountsRequestsInterface`). `CatalogFactory::create()` gives the catalogue
+  its wait (`Config::backoff()`) over the registry's limiter. The bundle autowires the guarded
+  catalogues and takes `policy`, `usage` and `limiter`. `docs/policies.md`, the platforms' badge
+  and logo rules with it.
+- The harness installs `omnisense/contracts` from its checkout (`OMNISENSE_CONTRACTS`) or GitHub and
+  runs its tests, names its entrypoint, stays on Docker's default bridge, and runs PHPStan
+  (`phpstan`, level max, the existing errors in `phpstan-baseline.neon`).
 - `Omnisong\Http\Redaction`: a request's secrets (`secrets()`), a text without them (`text()`), a
   failure's copy to wrap in its place (`copy()`), a trace without arguments (`withoutArguments()`),
   for the catalogues that call with a key.

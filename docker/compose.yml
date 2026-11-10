@@ -11,19 +11,30 @@
 #
 # Catalogues come from GitHub (branch 1.x) unless their checkout sits under
 # OMNISONG_PLUGINS (set it to ../.. in .env when this core sits in the
-# workspace beside them): then that checkout is what runs.
+# workspace beside them): then that checkout is what runs. omnisense/contracts
+# likewise: its checkout under OMNISENSE_CONTRACTS (../../../omnisense-contracts
+# in .env when it sits beside the family's folder), its tests run with the
+# family's; GitHub otherwise.
+#
+#   docker compose run --rm omnisong phpstan                 # PHPStan, each package at the highest level
 name: omnisong-harness
 
 services:
   omnisong:
     build: .
     image: omnisense/omnisong-harness
+    # The image may be another family's harness tagged (PHP 8.4 with intl and Composer): the
+    # entrypoint is named here, not taken from the image.
+    entrypoint: ["/omnisong/core/docker/entrypoint.sh"]
+    # One service, no server beside it: Docker's default bridge, no network of its own to create.
+    network_mode: bridge
     env_file:
       - path: .env
         required: false
     volumes:
       - ..:/omnisong/core
       - ${OMNISONG_PLUGINS:-./plugins}:/omnisong/plugins:ro
+      - ${OMNISENSE_CONTRACTS:-./contracts}:/omnisense/contracts:ro
       - harness:/harness
 
 volumes:

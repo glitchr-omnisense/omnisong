@@ -155,7 +155,8 @@ docker compose run --rm omnisong test                     # every package's test
 
 `omnisense/omnisong` and its `omnisong/*` providers are independent, unofficial clients: none is
 affiliated with, endorsed by or sponsored by the services it reaches. Each service keeps its own
-terms (keys, promotional use and attribution, rate limits), named with a link in the
+terms (keys, promotional use and attribution, rate limits), declared as data in each provider's
+`policy.json` ([usage policies](docs/policies.md)) and named with a link in the
 "Responsibility" section of the README of each provider that reaches one. The MIT licence covers
 this code only and grants no right to any service or to its data.
 

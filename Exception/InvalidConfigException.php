@@ -2,7 +2,9 @@
 
 namespace Omnisong\Exception;
 
-/** A catalogue misconfigured: a key missing, an unknown factory. */
-final class InvalidConfigException extends \LogicException implements OmnisongException
+use Omnisense\Contracts\Exception\InvalidConfigException as KernelInvalidConfigException;
+
+/** A catalogue misconfigured: a key missing, an unknown factory (a \LogicException, the kernel's InvalidConfigException). */
+final class InvalidConfigException extends KernelInvalidConfigException implements OmnisongException
 {
 }

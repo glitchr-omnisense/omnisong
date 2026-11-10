@@ -30,7 +30,8 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_it
  *     omnisong:
  *         catalogs:
  *             odesli: { factory: odesli, options: { api_key: '%env(default::ODESLI_API_KEY)%', country: 'DE' } }
- *             itunes: { factory: itunes, options: { country: 'de' } }
+ *             itunes: { factory: itunes, options: { country: 'de' }, usage: { commercial: false } }
+ *         limiter: ~      # a service id: an Omnisense\Contracts\Policy\RateLimiterInterface shared by every process
  *         player:
  *             theme: light
  *             country: ~
@@ -39,7 +40,9 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_it
  *     public function __construct(CatalogInterface $itunes) {}   // one catalogue, by its name
  *
  * An application's own factories (a CatalogFactoryInterface) are registered
- * too, autoconfigured.
+ * too, autoconfigured. The catalogues autowired are guarded by their usage
+ * policy (Registry::guarded()): a catalogue's "policy" tightens it, its
+ * "usage" says what the site is.
  */
 final class OmnisongBundle extends AbstractBundle
 {
@@ -59,9 +62,12 @@ final class OmnisongBundle extends AbstractBundle
                         ->children()
                             ->scalarNode('factory')->isRequired()->cannotBeEmpty()->end()
                             ->variableNode('options')->defaultValue([])->end()
+                            ->variableNode('policy')->info('Tightens the catalogue\'s usage policy (rateLimits, rights, requirements), never looser.')->defaultValue([])->end()
+                            ->variableNode('usage')->info('What the site is: commercial, open_source, contract.')->defaultValue([])->end()
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('limiter')->defaultNull()->info('The service id of an Omnisense\\Contracts\\Policy\\RateLimiterInterface every process shares; an in-memory one otherwise.')->end()
                 ->arrayNode('player')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -72,7 +78,7 @@ final class OmnisongBundle extends AbstractBundle
             ->end();
     }
 
-    /** @param array{catalogs: array<string, array{factory: string, options: array<string, mixed>}>, player: array{theme: string, country: ?string}} $config */
+    /** @param array{catalogs: array<string, array{factory: string, options: array<string, mixed>, policy: array<string, mixed>, usage: array<string, mixed>}>, limiter: ?string, player: array{theme: string, country: ?string}} $config */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $builder->registerForAutoconfiguration(CatalogFactoryInterface::class)->addTag('omnisong.catalog_factory');
@@ -85,7 +91,7 @@ final class OmnisongBundle extends AbstractBundle
         }
 
         $services->set(Registry::class)
-            ->args([tagged_iterator('omnisong.catalog_factory'), $config['catalogs']])
+            ->args([tagged_iterator('omnisong.catalog_factory'), $config['catalogs'], null !== $config['limiter'] ? service($config['limiter']) : null])
             ->public();
 
         $services->set(Catalog::class)->factory([self::class, 'aggregate'])->args([service(Registry::class)]);
@@ -93,7 +99,7 @@ final class OmnisongBundle extends AbstractBundle
 
         foreach (array_keys($config['catalogs']) as $name) {
             $id = 'omnisong.catalog.'.$name;
-            $services->set($id, CatalogInterface::class)->factory([service(Registry::class), 'get'])->args([$name]);
+            $services->set($id, CatalogInterface::class)->factory([service(Registry::class), 'guarded'])->args([$name]);
             $builder->registerAliasForArgument($id, CatalogInterface::class, $name);
         }
 
@@ -106,9 +112,9 @@ final class OmnisongBundle extends AbstractBundle
         }
     }
 
-    /** Every configured catalogue, in the configured order, as one. */
+    /** Every configured catalogue, in the configured order, guarded, as one. */
     public static function aggregate(Registry $registry): Catalog
     {
-        return new Catalog($registry->all());
+        return $registry->catalog();
     }
 }

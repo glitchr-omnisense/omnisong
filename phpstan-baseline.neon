@@ -1,0 +1,493 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function is_subclass_of\(\) with ''Omnisong\\\\Itunes\\\\ItunesCatalogFactory''\|''Omnisong\\\\Odesli\\\\OdesliCatalogFactory'' and ''Omnisong\\\\Catalog\\\\CatalogFactoryInterface'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: Bridge/Symfony/OmnisongBundle.php
+
+		-
+			message: '#^Cannot cast Omnisong\\Platform\|string\|null to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: Bridge/Twig/OmnisongExtension.php
+
+		-
+			message: '#^Method Omnisong\\Bridge\\Twig\\OmnisongExtension\:\:label\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Bridge/Twig/OmnisongExtension.php
+
+		-
+			message: '#^Parameter \#1 \$reference of method Omnisong\\Catalog\\CatalogInterface\:\:release\(\) expects Omnisong\\Model\\Reference, Omnisong\\Model\\Reference\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Catalog/Catalog.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: Model/PlatformLinks.php
+
+		-
+			message: '#^Cannot access offset ''apple_music'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''artist'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''first'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''label'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''links'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''preview'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''previews'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''released'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''tidal'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''title'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''tracks'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''upc'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Method Omnisong\\Tests\\BareTest\:\:framework\(\) should return list\<string\> but returns array\<mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Method Omnisong\\Tests\\BareTest\:\:php\(\) should return array\{int, array\<string, mixed\>\} but returns array\{int, array\<mixed\>\}\.$#'
+			identifier: return.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Only iterables can be unpacked, mixed given\.$#'
+			identifier: arrayUnpacking.nonIterable
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_column expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_key_first expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_values expects array, array\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$report of static method Omnisong\\Tests\\BareTest\:\:framework\(\) expects array\{symbols\: list\<string\>, files\: list\<string\>\}, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$report of static method Omnisong\\Tests\\BareTest\:\:framework\(\) expects array\{symbols\: list\<string\>, files\: list\<string\>\}, non\-empty\-array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, ''class_exists'' given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertContains\(\) expects iterable, mixed given\.$#'
+			identifier: argument.type
+			count: 4
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertCount\(\) expects Countable\|iterable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#2 \$string of static method PHPUnit\\Framework\\Assert\:\:assertStringStartsWith\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$catalog\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$country\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$embedder\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$first\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:factories\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:names\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Cannot access property \$src on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Cannot access property \$url on Omnisong\\Model\\PlatformLink\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Cannot call method embed\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Cannot call method getName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Cannot call method getPathname\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Cannot call method isDir\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Parameter \#1 \$directory of function rmdir expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function unlink expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertContains\(\) expects iterable, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Tests/Bridge/OmnisongBundleTest.php
+
+		-
+			message: '#^Cannot access property \$id on Omnisong\\Model\\Reference\|false\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$label on Omnisong\\Model\\Release\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$links on Omnisong\\Model\\Release\|null\.$#'
+			identifier: property.nonObject
+			count: 5
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$name on Omnisong\\Model\\Label\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$title on Omnisong\\Model\\Release\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$tracks on Omnisong\\Model\\Release\|null\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$type on Omnisong\\Model\\Reference\|false\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$upc on Omnisong\\Model\\Release\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$url on Omnisong\\Model\\PlatformLink\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot call method first\(\) on Omnisong\\Model\\PlatformLinks\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot call method get\(\) on Omnisong\\Model\\PlatformLinks\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot call method has\(\) on Omnisong\\Model\\PlatformLinks\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot call method title\(\) on Omnisong\\Model\\PlatformLink\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot call method toArray\(\) on Omnisong\\Model\\PlatformLinks\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>links" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: Tests/CatalogTest.php
+
+		-
+			message: '#^Cannot access property \$height on Omnisong\\Model\\Embed\|null\.$#'
+			identifier: property.nonObject
+			count: 8
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Cannot access property \$html on Omnisong\\Model\\Embed\|null\.$#'
+			identifier: property.nonObject
+			count: 5
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Cannot access property \$platform on Omnisong\\Model\\Embed\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Cannot access property \$src on Omnisong\\Model\\Embed\|null\.$#'
+			identifier: property.nonObject
+			count: 8
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertStringContainsString\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertStringNotContainsString\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Parameter \#2 \$string of static method PHPUnit\\Framework\\Assert\:\:assertStringEndsWith\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Parameter \#2 \$string of static method PHPUnit\\Framework\\Assert\:\:assertStringStartsWith\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/EmbedderTest.php
+
+		-
+			message: '#^Cannot access property \$platform on Omnisong\\Model\\PlatformLink\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: Tests/PlatformLinksTest.php
+
+		-
+			message: '#^Cannot access property \$url on Omnisong\\Model\\PlatformLink\|null\.$#'
+			identifier: property.nonObject
+			count: 5
+			path: Tests/PlatformLinksTest.php
+
+		-
+			message: '#^Cannot call method title\(\) on Omnisong\\Model\\PlatformLink\|null\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: Tests/PlatformLinksTest.php
+
+		-
+			message: '#^Cannot access property \$name on Omnisong\\Model\\Label\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: Tests/ReleaseTest.php
+
+		-
+			message: '#^Cannot call method format\(\) on DateTimeImmutable\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/ReleaseTest.php
+
+		-
+			message: '#^Cannot call method toArray\(\) on Omnisong\\Model\\PlatformLinks\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: Tests/ReleaseTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertCount\(\) expects Countable\|iterable, Omnisong\\Model\\PlatformLinks\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/ReleaseTest.php
+
+		-
+			message: '#^Method Omnisong\\Tests\\StubCatalog\:\:links\(\) should return Omnisong\\Model\\PlatformLinks but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Tests/StubCatalog.php
+
+		-
+			message: '#^Method Omnisong\\Tests\\StubCatalog\:\:release\(\) should return Omnisong\\Model\\Release\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Tests/StubCatalog.php
+
+		-
+			message: '#^Method Omnisong\\Tests\\StubCatalog\:\:releases\(\) should return list\<Omnisong\\Model\\Release\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Tests/StubCatalog.php
+
+		-
+			message: '#^Binary operation "\." between ''From '' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: Tests/StubCatalogFactory.php
+
+		-
+			message: '#^Binary operation "\." between ''https\://'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: Tests/StubCatalogFactory.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: Tests/StubCatalogFactory.php
+
+		-
+			message: '#^Parameter \#1 \$value of static method Omnisong\\Platform\:\:from\(\) expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/StubCatalogFactory.php

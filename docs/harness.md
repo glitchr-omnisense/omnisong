@@ -32,6 +32,14 @@ docker compose run --rm omnisong releases "Brieuc Vourch" --limit 10
 docker compose run --rm omnisong embed https://music.apple.com/de/album/perspectives-concertantes/1793146044 --dark
 ```
 
+## The kernel and PHPStan
+
+`omnisense/contracts` comes from its checkout when `OMNISENSE_CONTRACTS` names it in `docker/.env`
+(`../../../omnisense-contracts` when it sits beside the family's folder): its tests then run with the
+family's. `docker compose run --rm omnisong phpstan` analyses the core and each catalogue at level
+max; the errors that were there before are in each package's `phpstan-baseline.neon`, and new code
+adds none.
+
 ## Bare: no bundle, no container
 
 The console above is a `symfony/console` application over a registry built by hand; `bare` is

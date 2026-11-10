@@ -20,7 +20,6 @@
  * OMNISONG_AUTOLOAD names another autoloader than the harness's.
  */
 
-use Omnisong\Catalog\Catalog;
 use Omnisong\Model\Label;
 use Omnisong\Model\Reference;
 use Omnisong\Registry;
@@ -68,7 +67,7 @@ $registry = new Registry($factories, $config);
 
 $report = ['recorded' => $recorded, 'factories' => $registry->factories(), 'catalogs' => $registry->names(), 'skipped' => $skipped ?? null, 'release' => null, 'incomplete' => []];
 if ($registry->names()) {
-    $catalog = new Catalog($registry->all());
+    $catalog = $registry->catalog(); // every catalogue behind its usage policy
     $release = $catalog->release(Reference::upc(UPC), new Label('ES-DUR', 'https://www.es-dur.de'));
     $report['incomplete'] = $catalog->incomplete;
     $report['release'] = null === $release ? null : [

@@ -2,10 +2,11 @@
 
 namespace Omnisong\Exception;
 
+use Omnisense\Contracts\Exception\NotSupportedException as KernelNotSupportedException;
 use Omnisong\Model\Reference;
 
 /** The catalogue does not read that kind of reference, or does not do that at all. */
-final class NotSupportedException extends \LogicException implements OmnisongException
+final class NotSupportedException extends KernelNotSupportedException implements OmnisongException
 {
     public static function reference(string $catalog, Reference $reference): self
     {

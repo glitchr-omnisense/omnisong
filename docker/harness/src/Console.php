@@ -174,7 +174,7 @@ final class Console
 
     private function catalog(): Catalog
     {
-        return new Catalog($this->registry->all());
+        return $this->registry->catalog();
     }
 
     private function reference(InputInterface $in): Reference

@@ -81,6 +81,11 @@ try {
 }
 ```
 
+A guarded catalogue (`Registry::guarded()`, the aggregator the bundle autowires) refuses a call over
+its usage policy, or while its service's wait lasts, with a `RateLimitedException` too, nothing
+sent: its previous is a `UsageLimitReachedException` (the kernel's `UsageLimitReached`: `retryAfter`,
+`limit`). Every omnisong exception is also an `Omnisense\Contracts\Exception\ExceptionInterface`.
+
 Under the aggregator, `NotSupportedException` and `UnavailableException` (with its child) are
 caught and the next catalogue asked; the unavailable ones are named in `$catalog->incomplete`. A
 `ProviderException` that is not an `UnavailableException` is not caught: it reaches the caller of

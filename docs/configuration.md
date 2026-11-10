@@ -8,7 +8,7 @@ order: 40
 ## The registry
 
 ```php
-new Registry(iterable $factories, array $config);
+new Registry(iterable $factories, array $config, ?RateLimiterInterface $limiter = null);
 ```
 
 | Key | Type | Required | |
@@ -16,6 +16,12 @@ new Registry(iterable $factories, array $config);
 | `<name>` | the catalogue's name, a string | - | how it is asked for: `get('<name>')`, and in Symfony the argument's name. The configured order is the aggregator's. `$incomplete` and `Catalog::names()` name a catalogue by its own `getName()` (`itunes`), not by this name |
 | `<name>.factory` | string | yes | a factory's `getName()`: `itunes`, `odesli`, or an application's own |
 | `<name>.options` | map | no, default `[]` | handed to the factory's `create()` |
+| `<name>.policy` | map | no | tightens the catalogue's usage policy, never looser ([Usage policies](policies.md)); may sit in `options` too |
+| `<name>.usage` | map | no | what the site is: `commercial`, `open_source`, `contract`; a use the terms forbid fails at once |
+
+The limiter (`Omnisense\Contracts\Policy\RateLimiterInterface`, in-memory by default) counts every
+catalogue's calls and keeps the waits their services ask for; give a shared one when several
+processes serve the site. The bundle's `omnisong.limiter` names such a service.
 
 The same tree is the Symfony bundle's `omnisong.catalogs` ([Symfony](symfony.md#configuration)).
 The same factory can serve several catalogues - two iTunes stores, for example:

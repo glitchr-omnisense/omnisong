@@ -34,6 +34,14 @@ Every catalogue keeps the contract the aggregator relies on:
   second call costs nothing.
 - **Use the reference's country** over the configured one when it has one.
 - **Newest first** for `releases()`, at most `$limit`.
+- **Declare the service's usage policy** as data: a `policy.json` in the schema of
+  omnisense/contracts, named in `composer.json` (`extra.omnisense.policy`), read by `usagePolicy()`
+  (`DeclaresUsagePolicyInterface`); what the terms do not say stays `unknown` or `null`
+  ([Usage policies](policies.md)). Implement `Policy\CountsRequestsInterface` so that the guard
+  counts the requests sent rather than the calls.
+- **Keep the service's waits.** Take the factory's `Config::backoff()` and, before each request,
+  throw a `RateLimitedException` while `left()` is not 0; on a 429 `hold()` its `Retry-After`, on
+  any other answer `observe()` it. Never retry: the next call is the caller's.
 
 ## A catalogue of the application's
 
