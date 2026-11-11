@@ -28,13 +28,17 @@ final class BareTest extends TestCase
         [$status, $report] = self::php([__DIR__.'/../docker/harness/bin/bare', '--recorded', '--json']);
 
         self::assertSame(0, $status);
-        self::assertContains(Registry::class, $report['symbols'], 'the registry was built there');
+        self::assertContains(Registry::class, self::strings($report['symbols'] ?? null), 'the registry was built there');
         self::assertSame([], self::framework($report), 'no class nor file of a framework');
-        $installed = array_values(array_filter(array_column(require __DIR__.'/../docker/harness/plugins.php', 1), 'class_exists'));
+        $plugins = require __DIR__.'/../docker/harness/plugins.php';
+        self::assertIsArray($plugins);
+        $installed = array_values(array_filter(self::strings(array_column($plugins, 1)), static fn (string $class): bool => class_exists($class)));
         foreach ($installed as $factory) {
-            self::assertContains($factory, $report['symbols'], 'every catalogue package installed, its factory built');
+            self::assertContains($factory, self::strings($report['symbols'] ?? null), 'every catalogue package installed, its factory built');
         }
-        self::assertCount(\count($installed), $report['factories']);
+        $factories = $report['factories'] ?? null;
+        self::assertIsArray($factories);
+        self::assertCount(\count($installed), $factories);
     }
 
     public function testACatalogueAnswersFromRecordedAnswersWithNoClassOfAFrameworkLoaded(): void
@@ -46,21 +50,26 @@ final class BareTest extends TestCase
 
         self::assertSame(0, $status);
         self::assertTrue($report['recorded']);
-        self::assertContains('itunes', $report['catalogs']);
+        self::assertContains('itunes', self::strings($report['catalogs'] ?? null));
         self::assertSame([], $report['incomplete']);
         $release = $report['release'];
+        self::assertIsArray($release);
+        self::assertIsArray($release['first']);
+        self::assertIsArray($release['links']);
         self::assertSame('Perspectives Concertantes', $release['title']);
+        self::assertIsString($release['artist']);
         self::assertStringStartsWith('Anaelle Tourret, NDR Elbphilharmonie Orchester', $release['artist']);
         self::assertSame(['4015372820954', 'album', '2025-02-28'], [$release['upc'], $release['type'], $release['released']]);
         self::assertSame('ES-DUR', $release['label'], 'the label given, before the one the store names');
         self::assertSame([8, 8], [$release['tracks'], $release['previews']]);
+        self::assertIsString($release['first']['preview']);
         self::assertStringStartsWith('https://audio-ssl.itunes.apple.com/', $release['first']['preview']);
         self::assertSame('label', array_key_first($release['links']), 'the label first');
         self::assertSame('https://music.apple.com/de/album/perspectives-concertantes/1793146044', $release['links']['apple_music']);
         if (class_exists(OdesliCatalogFactory::class)) {
             self::assertSame('https://listen.tidal.com/album/414051173', $release['links']['tidal'], 'Odesli asked by the id iTunes found');
         }
-        self::assertContains('Symfony\\Component\\HttpClient\\MockHttpClient', $report['symbols'], 'the answers came through the HTTP client given');
+        self::assertContains('Symfony\\Component\\HttpClient\\MockHttpClient', self::strings($report['symbols'] ?? null), 'the answers came through the HTTP client given');
         self::assertSame([], self::framework($report), 'no class nor file of a framework');
     }
 
@@ -79,13 +88,29 @@ final class BareTest extends TestCase
     }
 
     /**
-     * @param array{symbols: list<string>, files: list<string>} $report
+     * @param array<mixed> $report its symbols and files, lists of strings
      *
      * @return list<string> the classes, interfaces, traits and files of a framework among those loaded
      */
     private static function framework(array $report): array
     {
-        return [...array_values(preg_grep(self::FRAMEWORK, $report['symbols'])), ...array_values(preg_grep(self::FRAMEWORK_FILES, $report['files']))];
+        $symbols = self::strings($report['symbols'] ?? null);
+        $files = self::strings($report['files'] ?? null);
+
+        return [...array_values(array_filter($symbols, static fn (string $s): bool => 1 === preg_match(self::FRAMEWORK, $s))), ...array_values(array_filter($files, static fn (string $f): bool => 1 === preg_match(self::FRAMEWORK_FILES, $f)))];
+    }
+
+    /** @return list<string> the value, asserted to be a list of strings */
+    private static function strings(mixed $value): array
+    {
+        self::assertIsList($value);
+        $strings = [];
+        foreach ($value as $item) {
+            self::assertIsString($item);
+            $strings[] = $item;
+        }
+
+        return $strings;
     }
 
     /**
@@ -93,7 +118,7 @@ final class BareTest extends TestCase
      *
      * @param list<string> $arguments
      *
-     * @return array{int, array<string, mixed>} the exit status, the JSON printed
+     * @return array{int, array<mixed>} the exit status, the JSON printed
      */
     private static function php(array $arguments): array
     {

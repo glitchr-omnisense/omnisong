@@ -20,6 +20,11 @@ final class StubCatalog implements CatalogInterface
     /** @var list<Reference> */
     public array $asked = [];
 
+    /**
+     * @param (\Closure(Reference): PlatformLinks)|null                     $links
+     * @param (\Closure(Reference): ?Release)|null                          $release
+     * @param (\Closure(string, int, ?string): list<Release>)|null          $releases
+     */
     public function __construct(
         private readonly string $name,
         private readonly ?\Closure $links = null,

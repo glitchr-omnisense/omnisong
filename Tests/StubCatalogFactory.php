@@ -25,8 +25,10 @@ final class StubCatalogFactory extends CatalogFactory
 
     protected function build(Config $c): CatalogInterface
     {
-        $links = static fn (Reference $r) => new PlatformLinks([new PlatformLink(Platform::from($c['platform']), 'https://'.$c['name'].'.example/'.$r)]);
+        $name = (string) $c->string('name');
+        $platform = Platform::from((string) $c->string('platform'));
+        $links = static fn (Reference $r) => new PlatformLinks([new PlatformLink($platform, 'https://'.$name.'.example/'.$r)]);
 
-        return new StubCatalog((string) $c['name'], $links, static fn (Reference $r) => new Release('From '.$c['name'], links: $links($r)));
+        return new StubCatalog($name, $links, static fn (Reference $r) => new Release('From '.$name, links: $links($r)));
     }
 }

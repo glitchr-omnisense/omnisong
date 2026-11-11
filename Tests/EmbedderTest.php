@@ -19,13 +19,16 @@ final class EmbedderTest extends TestCase
     {
         self::assertSame('https://open.spotify.com/embed/album/4aawyAB9vmqN3uQ7FjRGTy?utm_source=omnisong&theme=1', self::src(Platform::SPOTIFY, 'https://open.spotify.com/intl-de/album/4aawyAB9vmqN3uQ7FjRGTy?si=x'));
         $track = (new Embedder())->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp'));
+        self::assertNotNull($track);
         self::assertSame('https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp?utm_source=omnisong&theme=1', $track->src);
         self::assertSame(152, $track->height, 'a track: the compact player');
-        self::assertSame(352, (new Embedder())->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy'))->height);
+        self::assertSame(352, (new Embedder())->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy'))?->height);
         $artist = (new Embedder())->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/artist/0OdUWJ0sBjDrqHygGUXeCF?si=x'));
+        self::assertNotNull($artist);
         self::assertSame('https://open.spotify.com/embed/artist/0OdUWJ0sBjDrqHygGUXeCF?utm_source=omnisong&theme=1', $artist->src, 'the artist\'s profile: their top tracks');
         self::assertSame(352, $artist->height);
         $playlist = (new Embedder())->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M'));
+        self::assertNotNull($playlist);
         self::assertSame('https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=omnisong&theme=1', $playlist->src);
         self::assertSame(352, $playlist->height);
         self::assertNull(self::src(Platform::SPOTIFY, 'https://open.spotify.com/search/tourret'), 'a search has no player');
@@ -34,14 +37,17 @@ final class EmbedderTest extends TestCase
     public function testAppleMusic(): void
     {
         $album = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/perspectives-concertantes/1793146044'));
+        self::assertNotNull($album);
         self::assertSame('https://embed.music.apple.com/de/album/perspectives-concertantes/1793146044', $album->src);
         self::assertSame(450, $album->height);
 
         $track = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/concerto/1793146044?i=1793146055&uo=4'));
+        self::assertNotNull($track);
         self::assertSame('https://embed.music.apple.com/de/album/concerto/1793146044?i=1793146055', $track->src, 'one track of the album: ?i= kept, the rest dropped');
         self::assertSame(175, $track->height);
 
         $playlist = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/playlist/harp-essentials/pl.1b2d8a3c4e5f'));
+        self::assertNotNull($playlist);
         self::assertSame('https://embed.music.apple.com/de/playlist/harp-essentials/pl.1b2d8a3c4e5f', $playlist->src);
         self::assertSame(450, $playlist->height);
         self::assertSame('https://embed.music.apple.com/fr/album/x/1793146044', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044', new EmbedOptions(country: 'FR')), 'the store chosen');
@@ -51,6 +57,7 @@ final class EmbedderTest extends TestCase
     {
         self::assertSame('https://widget.deezer.com/widget/light/album/302127', self::src(Platform::DEEZER, 'https://www.deezer.com/de/album/302127'));
         $track = (new Embedder())->embed(new PlatformLink(Platform::DEEZER, 'https://www.deezer.com/track/3135556'));
+        self::assertNotNull($track);
         self::assertSame('https://widget.deezer.com/widget/light/track/3135556', $track->src);
         self::assertSame(90, $track->height);
         self::assertSame('https://widget.deezer.com/widget/light/artist/5603906', self::src(Platform::DEEZER, 'https://www.deezer.com/fr/artist/5603906'));
@@ -69,6 +76,7 @@ final class EmbedderTest extends TestCase
     public function testSoundcloud(): void
     {
         $src = self::src(Platform::SOUNDCLOUD, 'https://soundcloud.com/artist/track', new EmbedOptions(color: 'ff5500'));
+        self::assertNotNull($src);
         self::assertStringStartsWith('https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fartist%2Ftrack&auto_play=false', $src);
         self::assertStringContainsString('color=%23ff5500', $src, 'the colour encoded once: SoundCloud reads #ff5500');
         self::assertStringNotContainsString('%2523', $src);
@@ -87,16 +95,17 @@ final class EmbedderTest extends TestCase
     {
         $dark = new EmbedOptions(EmbedOptions::DARK);
 
-        self::assertStringEndsWith('theme=0', self::src(Platform::SPOTIFY, 'https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy', $dark));
-        self::assertStringEndsWith('?theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044', $dark));
-        self::assertStringEndsWith('?i=2&theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044?i=2', $dark));
+        self::assertStringEndsWith('theme=0', self::src(Platform::SPOTIFY, 'https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy', $dark) ?? '');
+        self::assertStringEndsWith('?theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044', $dark) ?? '');
+        self::assertStringEndsWith('?i=2&theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044?i=2', $dark) ?? '');
         self::assertSame('https://widget.deezer.com/widget/dark/album/302127', self::src(Platform::DEEZER, 'https://www.deezer.com/album/302127', $dark));
-        self::assertStringEndsWith('theme=0', (new Embedder($dark))->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/album/a1'))->src, 'the site\'s default');
+        self::assertStringEndsWith('theme=0', (new Embedder($dark))->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/album/a1'))->src ?? '', 'the site\'s default');
     }
 
     public function testTheIframeIsLazySandboxedAndEscaped(): void
     {
         $embed = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044?i=2', null, 'Tourret "live"'));
+        self::assertNotNull($embed);
 
         self::assertSame(Platform::APPLE_MUSIC, $embed->platform);
         self::assertStringStartsWith('<iframe src="https://embed.music.apple.com/de/album/x/1793146044?i=2"', $embed->html);

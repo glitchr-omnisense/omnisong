@@ -57,8 +57,9 @@ final class Catalog implements CatalogInterface
         foreach ($this->catalogs as $catalog) {
             // A UPC learnt from an earlier catalogue names the release best; then what was asked, then the ids learnt.
             $learnt = $release ? $this->learnt($reference, $release) : [];
+            $upc = $release?->upc && null === $reference->upc ? array_shift($learnt) : null;
             $found = null;
-            foreach ($release?->upc && null === $reference->upc ? [array_shift($learnt), $reference, ...$learnt] : [$reference, ...$learnt] as $asked) {
+            foreach (null !== $upc ? [$upc, $reference, ...$learnt] : [$reference, ...$learnt] as $asked) {
                 try {
                     $found = $catalog->release($asked);
                     break;

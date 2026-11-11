@@ -25,16 +25,16 @@ final class ReleaseTest extends TestCase
 
         self::assertSame('Perspectives concertantes', $merged->title, 'ours stays');
         self::assertSame('Anaëlle Tourret', $merged->artist);
-        self::assertSame('ES-DUR', $merged->label->name);
+        self::assertSame('ES-DUR', $merged->label?->name);
         self::assertSame('4015372820954', $merged->upc);
-        self::assertSame('2025-02-28', $merged->releasedAt->format('Y-m-d'));
+        self::assertSame('2025-02-28', $merged->releasedAt?->format('Y-m-d'));
         self::assertSame('https://img.example/cover.jpg', $merged->coverUrl);
         self::assertSame('Klassik', $merged->genre);
         self::assertSame(8, $merged->trackCount);
         self::assertSame('℗ 2025 ES-DUR', $merged->copyright);
         self::assertSame(['spotify' => 'a', 'itunes' => '1'], $merged->ids);
         self::assertCount(1, $merged->tracks, 'the tracks of the one that has some');
-        self::assertSame(['spotify' => 'https://open.spotify.com/album/a', 'apple_music' => 'https://music.apple.com/de/album/x/1'], $merged->links->toArray());
+        self::assertSame(['spotify' => 'https://open.spotify.com/album/a', 'apple_music' => 'https://music.apple.com/de/album/x/1'], $merged->links?->toArray());
         self::assertSame($ours, $ours->merge(null));
         self::assertNull($ours->upc, 'immutable');
     }
@@ -68,7 +68,8 @@ final class ReleaseTest extends TestCase
         $with = $release->withTracks([new Track('One', 1), new Track('Two', 2)])->withLabel(new Label('ES-DUR'))->withLinks(PlatformLinks::none());
 
         self::assertSame(2, $with->trackCount);
-        self::assertSame('ES-DUR', $with->label->name);
+        self::assertSame('ES-DUR', $with->label?->name);
+        self::assertNotNull($with->links);
         self::assertCount(0, $with->links);
         self::assertNull($release->links);
         self::assertSame([], $release->tracks);

@@ -97,7 +97,7 @@ final class PlatformLinks implements \IteratorAggregate, \Countable
         return array_map(static fn (PlatformLink $l) => $l->url, $this->links);
     }
 
-    /** @param array<string, string> $urls platform value => URL (unknown values become OTHER... no: skipped) */
+    /** @param array<array-key, mixed> $urls platform value => URL (unknown platforms, and URLs that are not a non-empty string, skipped) */
     public static function fromArray(array $urls, ?string $labelName = null): self
     {
         $links = [];

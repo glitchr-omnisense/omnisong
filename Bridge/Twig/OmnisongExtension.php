@@ -74,6 +74,10 @@ final class OmnisongExtension extends AbstractExtension
     /** "apple_music" (or the Platform itself) as "Apple Music"; what is not a platform stays as it is. */
     public function label(Platform|string|null $value): string
     {
-        return ($value instanceof Platform ? $value : Platform::tryFrom((string) $value))?->label() ?? (string) $value;
+        if ($value instanceof Platform) {
+            return $value->label();
+        }
+
+        return Platform::tryFrom((string) $value)?->label() ?? (string) $value;
     }
 }

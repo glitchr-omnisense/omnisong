@@ -23,6 +23,12 @@
   failure's copy to wrap in its place (`copy()`), a trace without arguments (`withoutArguments()`),
   for the catalogues that call with a key.
 
+### Changed
+
+- PHPStan at level max with an empty baseline: types only (array shapes, closures' signatures, the
+  tests' nullables asserted), no behaviour changed. `PlatformLinks::fromArray()` documents what it
+  already did with any array: unknown platforms and URLs that are not a non-empty string skipped.
+
 ### Fixed
 
 - `Catalog::links()` asks a catalogue that cannot read the reference (Odesli and an ISRC) by the

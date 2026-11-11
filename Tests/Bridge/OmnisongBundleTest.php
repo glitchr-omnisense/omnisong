@@ -38,6 +38,7 @@ final class OmnisongBundleTest extends TestCase
             $this->kernel->shutdown();
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
             foreach ($files as $file) {
+                self::assertInstanceOf(\SplFileInfo::class, $file);
                 $file->isDir() ? rmdir($file->getPathname()) : unlink($file->getPathname());
             }
             rmdir($dir);
@@ -51,24 +52,28 @@ final class OmnisongBundleTest extends TestCase
         $container = $this->kernel->getContainer();
 
         $registry = $container->get(Registry::class);
+        self::assertInstanceOf(Registry::class, $registry);
         self::assertSame(['second', 'first'], $registry->names(), 'as configured, not alphabetically');
         self::assertContains('odesli', $registry->factories(), 'the packages installed are registered');
         self::assertContains('itunes', $registry->factories());
         self::assertContains('stub', $registry->factories(), 'the application\'s own, autoconfigured');
 
         $listening = $container->get(Listening::class);
+        self::assertInstanceOf(Listening::class, $listening);
         self::assertInstanceOf(Catalog::class, $listening->catalog, 'CatalogInterface is the aggregator');
         self::assertSame(['second', 'first'], $listening->catalog->names());
         self::assertSame('first', $listening->first->getName(), 'one catalogue by its argument name');
 
         $links = $listening->catalog->links(Reference::upc('4015372820954'));
         self::assertSame(['second links 4015372820954', 'first links 4015372820954'], StubCatalog::$log);
-        self::assertSame('https://second.example/4015372820954', $links->get(Platform::SPOTIFY)->url);
-        self::assertSame('https://first.example/4015372820954', $links->get(Platform::DEEZER)->url);
+        self::assertSame('https://second.example/4015372820954', $links->get(Platform::SPOTIFY)?->url);
+        self::assertSame('https://first.example/4015372820954', $links->get(Platform::DEEZER)?->url);
 
         $embed = $listening->embedder->embed(new PlatformLink(Platform::DEEZER, 'https://www.deezer.com/album/302127'));
-        self::assertSame('https://widget.deezer.com/widget/dark/album/302127', $embed->src, 'the player\'s configured theme');
-        self::assertSame('fr', $container->get(OmnisongTestKernel::OPTIONS)->country);
+        self::assertSame('https://widget.deezer.com/widget/dark/album/302127', $embed?->src, 'the player\'s configured theme');
+        $options = $container->get(OmnisongTestKernel::OPTIONS);
+        self::assertInstanceOf(EmbedOptions::class, $options);
+        self::assertSame('fr', $options->country);
     }
 
     public function testTheTwigFunctions(): void
