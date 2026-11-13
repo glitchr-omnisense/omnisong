@@ -182,7 +182,7 @@ The shipped catalogues' layout, to copy:
 
 - name `omnisong/<slug>`, namespace `Omnisong\<Name>\`, PSR-4 from the package root, `Tests/`
   excluded from the class map;
-- `require`: `php` `>=8.2`, `omnisense/omnisong` `^1.0@dev`, and `symfony/http-client`
+- `require`: `php` `>=8.2`, `omnisense/omnisong` `^1.0`, and `symfony/http-client`
   (`^6.4|^7.0|^8.0`) when it calls a service;
 - the catalogue's base URL as a `BASE_URI` constant, overridable by a `base_uri` option (a test
   server, a proxy);
