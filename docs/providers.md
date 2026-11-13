@@ -123,13 +123,13 @@ final class LabelShopCatalogFactory extends CatalogFactory
 
 $registry = new Registry([new LabelShopCatalogFactory()], [
     'shop' => ['factory' => 'label_shop', 'options' => [
-        'label' => 'ES-DUR',
-        'releases' => ['4015372820954' => ['title' => 'Perspectives Concertantes', 'url' => 'https://www.es-dur.de/shop/perspectives']],
+        'label' => 'Label Exemple',
+        'releases' => ['028948637751' => ['title' => 'Beethoven: Symphonies Nos. 5 & 7', 'url' => 'https://label.example.org/shop/symphonies-5-7']],
     ]],
 ]);
 $catalog = new Catalog($registry->all());
 
-$release = $catalog->release(Reference::upc('4015372820954'));
+$release = $catalog->release(Reference::upc('028948637751'));
 echo $release->title, "\n";
 foreach ($release->links as $link) {
     echo '  ', $link->platform->value, ' ', $link->title(), ' ', $link->url, "\n";
@@ -146,8 +146,8 @@ try {
 
 ```
 $ php shop.php
-Perspectives Concertantes
-  shop ES-DUR https://www.es-dur.de/shop/perspectives
+Beethoven: Symphonies Nos. 5 & 7
+  shop Label Exemple https://label.example.org/shop/symphonies-5-7
 NULL
 int(0)
 The "label_shop" catalogue needs: label.

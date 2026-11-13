@@ -32,8 +32,8 @@ final class PlatformTest extends TestCase
     {
         $urls = [
             'https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy' => Platform::SPOTIFY,
-            'https://music.apple.com/de/album/perspectives-concertantes/1793146044' => Platform::APPLE_MUSIC,
-            'https://geo.music.apple.com/de/album/_/1793146044?mt=1&app=music' => Platform::APPLE_MUSIC,
+            'https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939' => Platform::APPLE_MUSIC,
+            'https://geo.music.apple.com/de/album/_/1644892939?mt=1&app=music' => Platform::APPLE_MUSIC,
             'https://www.apple.com/de/iphone/' => null,
             'https://www.youtube.com/watch?v=dQw4w9WgXcQ' => Platform::YOUTUBE,
             'https://youtu.be/dQw4w9WgXcQ' => Platform::YOUTUBE,
@@ -41,13 +41,13 @@ final class PlatformTest extends TestCase
             'https://www.deezer.com/de/album/123456' => Platform::DEEZER,
             'https://open.qobuz.com/album/abc' => Platform::QOBUZ,
             'https://app.idagio.com/albums/abc' => Platform::IDAGIO,
-            'https://listen.tidal.com/album/414051173' => Platform::TIDAL,
-            'https://music.amazon.com/albums/B0DV5P8V78' => Platform::AMAZON_MUSIC,
-            'https://amazon.com/dp/B0DV5P8V78' => Platform::AMAZON,
+            'https://listen.tidal.com/album/100000001' => Platform::TIDAL,
+            'https://music.amazon.com/albums/B000000001' => Platform::AMAZON_MUSIC,
+            'https://amazon.com/dp/B000000001' => Platform::AMAZON,
             'https://www.prestomusic.com/classical/products/1' => Platform::PRESTO,
             'https://artist.bandcamp.com/album/x' => Platform::BANDCAMP,
             'https://soundcloud.com/artist/track' => Platform::SOUNDCLOUD,
-            'https://www.es-dur.de/' => null,
+            'https://label.example.org/' => null,
             'not a url' => null,
         ];
         foreach ($urls as $url => $platform) {

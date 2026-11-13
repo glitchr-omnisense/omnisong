@@ -4,8 +4,8 @@
 /**
  * Omnisong in bare PHP: no bundle, no container, no console component. The
  * registry is built by hand from the catalogue packages installed, the
- * aggregator over it is asked for the release with the UPC 4015372820954
- * ("Perspectives Concertantes"), its label first - the iTunes Search API,
+ * aggregator over it is asked for the release with the UPC 028948637751
+ * ("Beethoven: Symphonies Nos. 5 & 7"), its label first - the iTunes Search API,
  * no key - and the script lists what PHP loaded on the way.
  *
  *   docker compose run --rm omnisong bare              # exits 1 when a class of a framework was loaded
@@ -14,8 +14,8 @@
  *
  * Without --recorded, Odesli is asked only when ODESLI_API_KEY is set: it
  * refuses keyless calls (401). The answers in recorded/ are the catalogue
- * packages' fixtures: iTunes' as answered on 2026-10-03 (store "de"),
- * Odesli's written from what album.link/i/1793146044 showed that day.
+ * packages' fixtures: iTunes' as answered on 2026-11-14 (store "de"),
+ * Odesli's written from what album.link/i/1644892939 and Deezer showed that day.
  *
  * OMNISONG_AUTOLOAD names another autoloader than the harness's.
  */
@@ -32,7 +32,7 @@ require getenv('OMNISONG_AUTOLOAD') ?: '/harness/vendor/autoload.php';
 // installed for the bridge's tests) is loaded before this line, whatever the script does: not counted below.
 $autoloaded = get_included_files();
 
-const UPC = '4015372820954';
+const UPC = '028948637751';
 
 $recorded = \in_array('--recorded', $argv, true);
 $http = !$recorded ? null : new MockHttpClient(static function (string $method, string $url): MockResponse {
@@ -41,8 +41,8 @@ $http = !$recorded ? null : new MockHttpClient(static function (string $method, 
 
     return match (true) {
         // As Apple serves it: JSON under a text/javascript content type.
-        '/lookup' === $path && (UPC === ($query['upc'] ?? null) || '1793146044' === ($query['id'] ?? null)) => new MockResponse((string) file_get_contents(__DIR__.'/../recorded/itunes-lookup-upc-4015372820954.json'), ['response_headers' => ['content-type' => 'text/javascript; charset=utf-8']]),
-        str_ends_with($path, '/links') => new MockResponse((string) file_get_contents(__DIR__.'/../recorded/odesli-links-album-1793146044.json'), ['response_headers' => ['content-type' => 'application/json']]),
+        '/lookup' === $path && (UPC === ($query['upc'] ?? null) || '1644892939' === ($query['id'] ?? null)) => new MockResponse((string) file_get_contents(__DIR__.'/../recorded/itunes-lookup-upc-028948637751.json'), ['response_headers' => ['content-type' => 'text/javascript; charset=utf-8']]),
+        str_ends_with($path, '/links') => new MockResponse((string) file_get_contents(__DIR__.'/../recorded/odesli-links-album-1644892939.json'), ['response_headers' => ['content-type' => 'application/json']]),
         default => new MockResponse("{\n \"resultCount\":0,\n \"results\": []\n}", ['response_headers' => ['content-type' => 'text/javascript; charset=utf-8']]),
     };
 });
@@ -68,7 +68,7 @@ $registry = new Registry($factories, $config);
 $report = ['recorded' => $recorded, 'factories' => $registry->factories(), 'catalogs' => $registry->names(), 'skipped' => $skipped ?? null, 'release' => null, 'incomplete' => []];
 if ($registry->names()) {
     $catalog = $registry->catalog(); // every catalogue behind its usage policy
-    $release = $catalog->release(Reference::upc(UPC), new Label('ES-DUR', 'https://www.es-dur.de'));
+    $release = $catalog->release(Reference::upc(UPC), new Label('Label Exemple', 'https://label.example.org'));
     $report['incomplete'] = $catalog->incomplete;
     $report['release'] = null === $release ? null : [
         'title' => $release->title,

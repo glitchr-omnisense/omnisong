@@ -107,7 +107,7 @@ built by its named constructors only (the constructor is private):
 |---|---|---|
 | `Reference::url(string $url, ?string $country = null)` | `url`, and `platform` from `Platform::fromUrl($url)` (null when unknown) | no |
 | `Reference::isrc(string $isrc, ?string $country = null)` | `isrc`, `type: song` | everything but letters and digits removed, upper case: `DE-A12-25-00001` is `DEA122500001` |
-| `Reference::upc(string $upc, ?string $country = null)` | `upc`, `type: album` | everything but digits removed: `0 4015372 820954` is `04015372820954` |
+| `Reference::upc(string $upc, ?string $country = null)` | `upc`, `type: album` | everything but digits removed: `0 28948 63775 1` is `00028948637751` |
 | `Reference::id(Platform $platform, string $id, string $type = Reference::ALBUM, ?string $country = null)` | `platform`, `id`, `type` | no |
 | `Reference::parse(string $value, ?string $country = null)` | one of the above, read from a loose string | trimmed |
 
@@ -129,7 +129,7 @@ is a UPC written with spaces: `parse()` does not strip them, `upc()` does.
 | `country` | `?string` | ISO 3166-1 alpha-2: the store the links should point at; over the catalogue's configured country |
 
 `withCountry(?string $country)` gives a copy for another store. `(string) $reference` is the URL,
-else the ISRC, else the UPC, else `platform:id` (`itunes:1793146044`).
+else the ISRC, else the UPC, else `platform:id` (`itunes:1644892939`).
 
 ## Releases and tracks
 
@@ -148,8 +148,8 @@ else the ISRC, else the UPC, else `platform:id` (`itunes:1793146044`).
 | `links` | `?PlatformLinks` | `null` | every platform it is on, the label's first |
 | `genre` | `?string` | `null` | the store's primary genre |
 | `trackCount` | `?int` | `null` | as the catalogue says, or the number of tracks set by `withTracks()` |
-| `ids` | `array<string, string>` | `[]` | a platform's value => its id for the release (`['itunes' => '1793146044', ...]`) |
-| `copyright` | `?string` | `null` | the store's copyright line (`℗ 2025 ES-DUR`) |
+| `ids` | `array<string, string>` | `[]` | a platform's value => its id for the release (`['itunes' => '1644892939', ...]`) |
+| `copyright` | `?string` | `null` | the store's copyright line (`℗ 1995 Label Exemple`) |
 
 | Method | |
 |---|---|
@@ -186,7 +186,7 @@ other side when it has none - the twin found by ISRC first, else by the same pla
 
 | Property | Type | |
 |---|---|---|
-| `name` | `string` | `ES-DUR` |
+| `name` | `string` | `Label Exemple` |
 | `url` | `?string` | the label's site, or the release's page on it |
 | `shopUrl` | `?string` | where the label sells the release |
 
@@ -202,7 +202,7 @@ A catalogue gives a label by name only (iTunes reads it from the copyright line)
 | `platform` | `Platform` | |
 | `url` | `string` | |
 | `id` | `?string` | the platform's own id, when known (Odesli gives one per platform, iTunes the collection id) |
-| `title` | `?string` | for `LABEL` and `SHOP`: the name to show (`ES-DUR`) |
+| `title` | `?string` | for `LABEL` and `SHOP`: the name to show (`Label Exemple`) |
 | `country` | `?string` | the store the URL points at, when the catalogue says |
 
 `title()` is `title`, else the platform's `label()`.

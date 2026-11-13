@@ -31,26 +31,26 @@ final class EmbedderTest extends TestCase
         self::assertNotNull($playlist);
         self::assertSame('https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=omnisong&theme=1', $playlist->src);
         self::assertSame(352, $playlist->height);
-        self::assertNull(self::src(Platform::SPOTIFY, 'https://open.spotify.com/search/tourret'), 'a search has no player');
+        self::assertNull(self::src(Platform::SPOTIFY, 'https://open.spotify.com/search/kleiber'), 'a search has no player');
     }
 
     public function testAppleMusic(): void
     {
-        $album = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/perspectives-concertantes/1793146044'));
+        $album = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939'));
         self::assertNotNull($album);
-        self::assertSame('https://embed.music.apple.com/de/album/perspectives-concertantes/1793146044', $album->src);
+        self::assertSame('https://embed.music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939', $album->src);
         self::assertSame(450, $album->height);
 
-        $track = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/concerto/1793146044?i=1793146055&uo=4'));
+        $track = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/concerto/1644892939?i=1644892943&uo=4'));
         self::assertNotNull($track);
-        self::assertSame('https://embed.music.apple.com/de/album/concerto/1793146044?i=1793146055', $track->src, 'one track of the album: ?i= kept, the rest dropped');
+        self::assertSame('https://embed.music.apple.com/de/album/concerto/1644892939?i=1644892943', $track->src, 'one track of the album: ?i= kept, the rest dropped');
         self::assertSame(175, $track->height);
 
-        $playlist = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/playlist/harp-essentials/pl.1b2d8a3c4e5f'));
+        $playlist = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/playlist/symphony-essentials/pl.1b2d8a3c4e5f'));
         self::assertNotNull($playlist);
-        self::assertSame('https://embed.music.apple.com/de/playlist/harp-essentials/pl.1b2d8a3c4e5f', $playlist->src);
+        self::assertSame('https://embed.music.apple.com/de/playlist/symphony-essentials/pl.1b2d8a3c4e5f', $playlist->src);
         self::assertSame(450, $playlist->height);
-        self::assertSame('https://embed.music.apple.com/fr/album/x/1793146044', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044', new EmbedOptions(country: 'FR')), 'the store chosen');
+        self::assertSame('https://embed.music.apple.com/fr/album/x/1644892939', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1644892939', new EmbedOptions(country: 'FR')), 'the store chosen');
     }
 
     public function testDeezer(): void
@@ -85,8 +85,8 @@ final class EmbedderTest extends TestCase
     public function testWhatHasNoPlayerHasNoEmbed(): void
     {
         self::assertNull(self::src(Platform::QOBUZ, 'https://open.qobuz.com/album/abc'));
-        self::assertNull(self::src(Platform::LABEL, 'https://www.es-dur.de'));
-        self::assertNull(self::src(Platform::DEEZER, 'https://www.deezer.com/de/search/tourret'));
+        self::assertNull(self::src(Platform::LABEL, 'https://label.example.org'));
+        self::assertNull(self::src(Platform::DEEZER, 'https://www.deezer.com/de/search/kleiber'));
         self::assertFalse((new Embedder())->supports(Platform::TIDAL));
         self::assertTrue((new Embedder())->supports(Platform::APPLE_MUSIC));
     }
@@ -96,22 +96,22 @@ final class EmbedderTest extends TestCase
         $dark = new EmbedOptions(EmbedOptions::DARK);
 
         self::assertStringEndsWith('theme=0', self::src(Platform::SPOTIFY, 'https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy', $dark) ?? '');
-        self::assertStringEndsWith('?theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044', $dark) ?? '');
-        self::assertStringEndsWith('?i=2&theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044?i=2', $dark) ?? '');
+        self::assertStringEndsWith('?theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1644892939', $dark) ?? '');
+        self::assertStringEndsWith('?i=2&theme=dark', self::src(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1644892939?i=2', $dark) ?? '');
         self::assertSame('https://widget.deezer.com/widget/dark/album/302127', self::src(Platform::DEEZER, 'https://www.deezer.com/album/302127', $dark));
         self::assertStringEndsWith('theme=0', (new Embedder($dark))->embed(new PlatformLink(Platform::SPOTIFY, 'https://open.spotify.com/album/a1'))->src ?? '', 'the site\'s default');
     }
 
     public function testTheIframeIsLazySandboxedAndEscaped(): void
     {
-        $embed = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1793146044?i=2', null, 'Tourret "live"'));
+        $embed = (new Embedder())->embed(new PlatformLink(Platform::APPLE_MUSIC, 'https://music.apple.com/de/album/x/1644892939?i=2', null, 'Kleiber "live"'));
         self::assertNotNull($embed);
 
         self::assertSame(Platform::APPLE_MUSIC, $embed->platform);
-        self::assertStringStartsWith('<iframe src="https://embed.music.apple.com/de/album/x/1793146044?i=2"', $embed->html);
+        self::assertStringStartsWith('<iframe src="https://embed.music.apple.com/de/album/x/1644892939?i=2"', $embed->html);
         self::assertStringContainsString('loading="lazy"', $embed->html);
         self::assertStringContainsString('sandbox="', $embed->html);
-        self::assertStringContainsString('title="Tourret &quot;live&quot;"', $embed->html);
+        self::assertStringContainsString('title="Kleiber &quot;live&quot;"', $embed->html);
         self::assertStringContainsString('height="175"', $embed->html);
     }
 }

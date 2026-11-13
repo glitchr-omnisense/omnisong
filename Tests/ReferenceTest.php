@@ -29,25 +29,25 @@ final class ReferenceTest extends TestCase
         self::assertNull($reference->isrc);
         self::assertSame('DE', $reference->country);
         self::assertSame('https://open.spotify.com/album/4aawyAB9vmqN3uQ7FjRGTy', (string) $reference);
-        self::assertNull(Reference::parse('https://www.es-dur.de/album')->platform, 'a URL of nobody we know is still a URL');
+        self::assertNull(Reference::parse('https://label.example.org/album')->platform, 'a URL of nobody we know is still a URL');
     }
 
     public function testAUpcOrAnEanIsARelease(): void
     {
-        foreach (['4015372820954', '724385583629', '04015372820954'] as $upc) {
+        foreach (['0028948637751', '724385583629', '00028948637751'] as $upc) {
             $reference = Reference::parse($upc);
             self::assertSame($upc, $reference->upc);
             self::assertSame(Reference::ALBUM, $reference->type);
             self::assertNull($reference->url);
         }
-        self::assertSame('4015372820954', Reference::upc('4 015372 820954')->upc, 'as printed under the barcode');
+        self::assertSame('028948637751', Reference::upc('0 28948 63775 1')->upc, 'as printed under the barcode');
     }
 
     public function testAnIsrcIsARecording(): void
     {
-        foreach (['DEAR42500001', 'de-ar4-25-00001', 'DE-AR4-25-00001'] as $isrc) {
+        foreach (['QZZZZ2500001', 'qz-zzz-25-00001', 'QZ-ZZZ-25-00001'] as $isrc) {
             $reference = Reference::parse($isrc);
-            self::assertSame('DEAR42500001', $reference->isrc);
+            self::assertSame('QZZZZ2500001', $reference->isrc);
             self::assertSame(Reference::SONG, $reference->type);
             self::assertNull($reference->upc);
         }
@@ -55,18 +55,18 @@ final class ReferenceTest extends TestCase
 
     public function testAPlatformsIdAndItsCountry(): void
     {
-        $reference = Reference::id(Platform::ITUNES, '1793146044');
+        $reference = Reference::id(Platform::ITUNES, '1644892939');
 
-        self::assertSame('itunes:1793146044', (string) $reference);
+        self::assertSame('itunes:1644892939', (string) $reference);
         self::assertSame(Reference::ALBUM, $reference->type);
         self::assertSame('FR', $reference->withCountry('FR')->country);
-        self::assertSame('1793146044', $reference->withCountry('FR')->id);
+        self::assertSame('1644892939', $reference->withCountry('FR')->id);
         self::assertNull($reference->country);
     }
 
     public function testAnythingElseIsRefused(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        Reference::parse('Perspectives concertantes');
+        Reference::parse('Symphonies Nos. 5 & 7');
     }
 }

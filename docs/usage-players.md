@@ -42,7 +42,7 @@ platform embeds (a Spotify search page, an Apple Music artist page).
 Every player is the same iframe, its `src` and `height` the platform's:
 
 ```html
-<iframe src="https://embed.music.apple.com/de/album/perspectives-concertantes/1793146044" title="Apple Music" width="100%" height="450" style="border:0;border-radius:12px" frameborder="0" loading="lazy" allowfullscreen allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"></iframe>
+<iframe src="https://embed.music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939" title="Apple Music" width="100%" height="450" style="border:0;border-radius:12px" frameborder="0" loading="lazy" allowfullscreen allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"></iframe>
 ```
 
 - `loading="lazy"` and a sandbox that lets the player run, open its own pages on a click, and use
@@ -73,8 +73,8 @@ Examples, as the embedder answered them:
 ```
 https://open.spotify.com/intl-de/album/4aawyAB9vmqN3uQ7FjRGTy
   src=https://open.spotify.com/embed/album/4aawyAB9vmqN3uQ7FjRGTy?utm_source=omnisong&theme=1 height=352
-https://music.apple.com/de/album/perspectives-concertantes/1793146044?i=1793146045
-  src=https://embed.music.apple.com/de/album/perspectives-concertantes/1793146044?i=1793146045 height=175
+https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939?i=1644892945
+  src=https://embed.music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939?i=1644892945 height=175
 https://www.deezer.com/fr/album/302127
   src=https://widget.deezer.com/widget/light/album/302127 height=300
 https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PL123

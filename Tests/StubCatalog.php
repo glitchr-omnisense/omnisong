@@ -14,7 +14,7 @@ use Omnisong\Model\Release;
  */
 final class StubCatalog implements CatalogInterface
 {
-    /** @var list<string> "links spotify:abc", "release 4015372820954"... across every stub, in the order asked */
+    /** @var list<string> "links spotify:abc", "release 028948637751"... across every stub, in the order asked */
     public static array $log = [];
 
     /** @var list<Reference> */

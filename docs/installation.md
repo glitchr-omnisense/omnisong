@@ -46,7 +46,7 @@ $registry = new Registry([new ItunesCatalogFactory($http)], [
 $catalog = new Catalog($registry->all());   // asks every configured catalogue in turn and merges what they say
 
 // A release by its UPC, the label first
-$release = $catalog->release(Reference::upc('4015372820954'), new Label('ES-DUR', 'https://www.es-dur.de'));
+$release = $catalog->release(Reference::upc('028948637751'), new Label('Label Exemple', 'https://label.example.org'));
 
 echo $release->title, ' (', $release->releasedAt->format('Y'), ', ', $release->label->name, ")\n\n";
 foreach ($release->tracks as $track) {
@@ -61,27 +61,28 @@ echo "\n", (new Embedder())->embed($release->links->get(Platform::APPLE_MUSIC))-
 
 ```
 $ php bare.php
-Perspectives Concertantes (2025, ES-DUR)
+Beethoven: Symphonies Nos. 5 & 7 (1995, Label Exemple)
 
-1. Concerto for Harp and Orchestra in E-Flat Major, Op. 74: I. Allegro Moderato
-2. Concerto for Harp and Orchestra in E-Flat Major, Op. 74: II. Tema con Variazioni
-3. Concerto for Harp and Orchestra in E-Flat Major, Op. 74: III. Allegro Giocoso
-4. Concertino for Harp & Chamber Orchestra, Op. 45: I. Andante
-5. Concertino for Harp & Chamber Orchestra, Op. 45: II. Allegretto Vivace
-6. Concertino for Harp & Chamber Orchestra, Op. 45: III. Adagio non Troppo
-7. Deux Danses pour harpe avec accompagnement d'orchestre: I. Danse sacrée
-8. Deux Danses pour harpe avec accompagnement d'orchestre: II. Danse profane
+1. Symphony No. 5 in C Minor, Op. 67: I. Allegro con brio
+2. Symphony No. 5 in C Minor, Op. 67: II. Andante con moto
+3. Symphony No. 5 in C Minor, Op. 67: III. Allegro
+4. Symphony No. 5 in C Minor, Op. 67: IV. Allegro
+5. Symphony No. 7 in A Major, Op. 92: I. Poco sostenuto - Vivace
+6. Symphony No. 7 in A Major, Op. 92: II. Allegretto
+7. Symphony No. 7 in A Major, Op. 92: III. Presto - Assai meno presto
+8. Symphony No. 7 in A Major, Op. 92: IV. Allegro con brio
 
-preview: https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/3f/df/023fdf56-9772-8b41-3e98-d0985a4b50a6/mzaf_17993483565663500051.plus.aac.p.m4a
+preview: https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/db/19/f5/db19f52a-08d9-1ef4-74bd-c49ccd58ad50/mzaf_11373277724482988321.plus.aac.p.m4a
 
-label        https://www.es-dur.de
-apple_music  https://music.apple.com/de/album/perspectives-concertantes/1793146044
-itunes       https://music.apple.com/de/album/perspectives-concertantes/1793146044?app=itunes
+label        https://label.example.org
+apple_music  https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939
+itunes       https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939?app=itunes
 
-<iframe src="https://embed.music.apple.com/de/album/perspectives-concertantes/1793146044" title="Apple Music" width="100%" height="450" style="border:0;border-radius:12px" frameborder="0" loading="lazy" allowfullscreen allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"></iframe>
+<iframe src="https://embed.music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939" title="Apple Music" width="100%" height="450" style="border:0;border-radius:12px" frameborder="0" loading="lazy" allowfullscreen allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"></iframe>
 ```
 
-(as answered by the iTunes Search API on 2026-10-05, in an empty directory after
+(as answered by the iTunes Search API on 2026-11-14, from the harness's image on the packages'
+checkouts; first run on 2026-10-05 in an empty directory after
 `composer require glitchr/omnisong omnisong/itunes`, the package's name then)
 
 No key, no account: the script asks the iTunes Search API once (about 20 calls a minute are
@@ -111,10 +112,10 @@ use Symfony\Component\HttpClient\HttpClient;
 
 $itunes = (new ItunesCatalogFactory(HttpClient::create()))->create(['country' => 'de']);
 
-$release = $itunes->release(Reference::upc('4015372820954'));
+$release = $itunes->release(Reference::upc('028948637751'));
 $release->tracks[0]->previewUrl;                 // 30 seconds, for an <audio> element
-$itunes->releases('Anaëlle Tourret', 10);        // what an artist put out, newest first
-$itunes->links(Reference::parse('https://music.apple.com/de/album/perspectives-concertantes/1793146044'));
+$itunes->releases('Carlos Kleiber', 10);        // what an artist put out, newest first
+$itunes->links(Reference::parse('https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939'));
 ```
 
 A reference is a URL on any platform, a UPC/EAN (a release), an ISRC (a recording) or a platform's
@@ -143,7 +144,7 @@ $registry = new Registry(
 );
 $catalog = new Catalog($registry->all());
 
-$release = $catalog->release(Reference::upc('4015372820954'), new Label('ES-DUR', 'https://www.es-dur.de'));
+$release = $catalog->release(Reference::upc('028948637751'), new Label('Label Exemple', 'https://label.example.org'));
 $catalog->incomplete;        // the catalogues that could not be reached: do not cache that half answer
 $registry->get('itunes');    // one catalogue, by its name
 ```
@@ -151,7 +152,7 @@ $registry->get('itunes');    // one catalogue, by its name
 Odesli is configured first, but reads no UPC: the aggregator goes on to iTunes, which finds the
 release and its tracks, then asks Odesli again by the iTunes id it learnt and merges the other
 platforms' links. The same merge, on the answers the harness keeps in `docker/harness/recorded/`
-(iTunes' as answered on 2026-10-03; Odesli's written from what album.link showed that day):
+(iTunes' as answered on 2026-11-14; Odesli's written from what album.link and Deezer showed that day):
 
 ```
 $ OMNISONG_AUTOLOAD=vendor/autoload.php php core/docker/harness/bin/bare --recorded
@@ -160,24 +161,22 @@ Omnisong in bare PHP: the registry built by hand, no bundle, no container.
   1. odesli
   2. itunes
 
-The release with the UPC 4015372820954, from the answers kept in recorded/:
-  Perspectives Concertantes - Anaelle Tourret, NDR Elbphilharmonie Orchester, Vasily Petrenko, Stuttgarter Kammerorchester & Bar Avni
-  album of 2025-02-28, ES-DUR
-  8 tracks, 8 with a preview; the first: Concerto for Harp and Orchestra in E-Flat Major, Op. 74: I. Allegro Moderato (11:17)
-  https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/3f/df/023fdf56-9772-8b41-3e98-d0985a4b50a6/mzaf_17993483565663500051.plus.aac.p.m4a
+The release with the UPC 028948637751, from the answers kept in recorded/:
+  Beethoven: Symphonies Nos. 5 & 7 - Wiener Philharmoniker & Carlos Kleiber
+  album of 1995-02-20, Label Exemple
+  8 tracks, 8 with a preview; the first: Symphony No. 5 in C Minor, Op. 67: I. Allegro con brio (07:22)
+  https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/db/19/f5/db19f52a-08d9-1ef4-74bd-c49ccd58ad50/mzaf_11373277724482988321.plus.aac.p.m4a
   where it is, the label first:
-    label         https://www.es-dur.de
-    apple_music   https://music.apple.com/de/album/perspectives-concertantes/1793146044
-    tidal         https://listen.tidal.com/album/414051173
-    amazon_music  https://music.amazon.com/albums/B0DV5P8V78
-    itunes        https://music.apple.com/de/album/perspectives-concertantes/1793146044?app=itunes
-    amazon        https://amazon.com/dp/B0DV5P8V78
+    label         https://label.example.org
+    apple_music   https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939
+    deezer        https://www.deezer.com/album/361794007
+    itunes        https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939?app=itunes
 
 Loaded from Symfony: Symfony\Component\HttpClient, Symfony\Contracts\HttpClient, Symfony\Contracts\Service
 Classes of a framework (DependencyInjection, Config, HttpKernel, HttpFoundation, a bundle, a bridge, Doctrine, Twig): none
 ```
 
-(the harness's `bare` script, run on 2026-10-26 on the packages' checkouts, PHP 8.4, no network;
+(the harness's `bare` script, run on 2026-11-14 on the packages' checkouts, PHP 8.4, no network;
 `docker compose run --rm omnisong bare --recorded` prints the same). Without a key song.link
 answers 401: Odesli is then skipped, `$catalog->incomplete` is `['odesli']`, and the release comes
 with iTunes' tracks and Apple's two links.

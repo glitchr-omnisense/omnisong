@@ -35,20 +35,20 @@ final class PlatformLinksTest extends TestCase
 
     public function testTheLabelGoesFirstAndItsShopNext(): void
     {
-        $links = self::links()->withLabel(new Label('ES-DUR', 'https://www.es-dur.de', 'https://www.es-dur.de/shop'));
+        $links = self::links()->withLabel(new Label('Label Exemple', 'https://label.example.org', 'https://label.example.org/shop'));
 
         self::assertSame(['label', 'shop', 'spotify', 'deezer', 'qobuz', 'itunes'], array_keys($links->toArray()));
-        self::assertSame('ES-DUR', $links->first()?->title());
-        self::assertSame('https://www.es-dur.de', $links->first()->url);
-        self::assertSame('https://www.es-dur.de/shop', $links->get(Platform::SHOP)?->url);
-        self::assertSame('ES-DUR', $links->get(Platform::SHOP)->title());
+        self::assertSame('Label Exemple', $links->first()?->title());
+        self::assertSame('https://label.example.org', $links->first()->url);
+        self::assertSame('https://label.example.org/shop', $links->get(Platform::SHOP)?->url);
+        self::assertSame('Label Exemple', $links->get(Platform::SHOP)->title());
         self::assertSame('Spotify', $links->get(Platform::SPOTIFY)?->title());
 
-        $shopOnly = self::links()->withLabel(new Label('ES-DUR', null, 'https://www.es-dur.de/shop'));
-        self::assertSame('https://www.es-dur.de/shop', $shopOnly->first()?->url, 'a label known by its shop alone');
+        $shopOnly = self::links()->withLabel(new Label('Label Exemple', null, 'https://label.example.org/shop'));
+        self::assertSame('https://label.example.org/shop', $shopOnly->first()?->url, 'a label known by its shop alone');
         self::assertFalse($shopOnly->has(Platform::SHOP), 'not twice');
 
-        self::assertSame(Platform::SPOTIFY, self::links()->withLabel(new Label('ES-DUR'))->first()?->platform, 'a label without an address has no link');
+        self::assertSame(Platform::SPOTIFY, self::links()->withLabel(new Label('Label Exemple'))->first()?->platform, 'a label without an address has no link');
         self::assertCount(4, self::links(), 'immutable');
     }
 
@@ -69,12 +69,12 @@ final class PlatformLinksTest extends TestCase
 
     public function testTheyAreStoredAsUrlsByPlatform(): void
     {
-        $stored = self::links()->withLabel(new Label('ES-DUR', 'https://www.es-dur.de'))->toArray();
-        self::assertSame('https://www.es-dur.de', $stored['label']);
+        $stored = self::links()->withLabel(new Label('Label Exemple', 'https://label.example.org'))->toArray();
+        self::assertSame('https://label.example.org', $stored['label']);
 
-        $links = PlatformLinks::fromArray($stored + ['myspace' => 'https://myspace.com/x', 'tidal' => ''], 'ES-DUR');
+        $links = PlatformLinks::fromArray($stored + ['myspace' => 'https://myspace.com/x', 'tidal' => ''], 'Label Exemple');
         self::assertSame($stored, $links->toArray(), 'what is not a platform, or is empty, is left out');
-        self::assertSame('ES-DUR', $links->first()?->title());
+        self::assertSame('Label Exemple', $links->first()?->title());
         self::assertSame('Deezer', $links->get(Platform::DEEZER)?->title());
     }
 }

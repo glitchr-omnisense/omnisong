@@ -11,7 +11,7 @@ final class PlatformLink
         public readonly Platform $platform,
         public readonly string $url,
         public readonly ?string $id = null,
-        /** For LABEL and SHOP: the name to show ("ES-DUR", "Presto Music") */
+        /** For LABEL and SHOP: the name to show ("Label Exemple", "Presto Music") */
         public readonly ?string $title = null,
         public readonly ?string $country = null,
     ) {

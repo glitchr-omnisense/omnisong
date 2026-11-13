@@ -26,10 +26,10 @@ docker compose run --rm omnisong catalogs
 | `test` | every package's tests |
 
 ```sh
-docker compose run --rm omnisong links 4015372820954 --label ES-DUR --label-url https://www.es-dur.de
-docker compose run --rm omnisong release 4015372820954 --label ES-DUR --label-url https://www.es-dur.de
-docker compose run --rm omnisong releases "Brieuc Vourch" --limit 10
-docker compose run --rm omnisong embed https://music.apple.com/de/album/perspectives-concertantes/1793146044 --dark
+docker compose run --rm omnisong links 028948637751 --label Label Exemple --label-url https://label.example.org
+docker compose run --rm omnisong release 028948637751 --label Label Exemple --label-url https://label.example.org
+docker compose run --rm omnisong releases "Carlos Kleiber" --limit 10
+docker compose run --rm omnisong embed https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939 --dark
 ```
 
 ## The kernel and PHPStan
@@ -45,7 +45,7 @@ adds none.
 The console above is a `symfony/console` application over a registry built by hand; `bare` is
 less still - one PHP script, `docker/harness/bin/bare`, that requires the autoloader and nothing
 else. It builds the `Registry` from the catalogue packages installed, puts the aggregator over
-it, asks for the release with the UPC 4015372820954, its label first - the real services (iTunes;
+it, asks for the release with the UPC 028948637751, its label first - the real services (iTunes;
 Odesli when its key is set), or with `--recorded` the answers kept in `docker/harness/recorded/`
 - then lists what PHP loaded and exits 1 if a class of a framework is among it
 (`Symfony\Component\DependencyInjection`, `Config`, `HttpKernel`, `HttpFoundation`, a bundle, a
@@ -58,18 +58,16 @@ Omnisong in bare PHP: the registry built by hand, no bundle, no container.
   1. odesli
   2. itunes
 
-The release with the UPC 4015372820954, from the answers kept in recorded/:
-  Perspectives Concertantes - Anaelle Tourret, NDR Elbphilharmonie Orchester, Vasily Petrenko, Stuttgarter Kammerorchester & Bar Avni
-  album of 2025-02-28, ES-DUR
-  8 tracks, 8 with a preview; the first: Concerto for Harp and Orchestra in E-Flat Major, Op. 74: I. Allegro Moderato (11:17)
-  https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/02/3f/df/023fdf56-9772-8b41-3e98-d0985a4b50a6/mzaf_17993483565663500051.plus.aac.p.m4a
+The release with the UPC 028948637751, from the answers kept in recorded/:
+  Beethoven: Symphonies Nos. 5 & 7 - Wiener Philharmoniker & Carlos Kleiber
+  album of 1995-02-20, Label Exemple
+  8 tracks, 8 with a preview; the first: Symphony No. 5 in C Minor, Op. 67: I. Allegro con brio (07:22)
+  https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/db/19/f5/db19f52a-08d9-1ef4-74bd-c49ccd58ad50/mzaf_11373277724482988321.plus.aac.p.m4a
   where it is, the label first:
-    label         https://www.es-dur.de
-    apple_music   https://music.apple.com/de/album/perspectives-concertantes/1793146044
-    tidal         https://listen.tidal.com/album/414051173
-    amazon_music  https://music.amazon.com/albums/B0DV5P8V78
-    itunes        https://music.apple.com/de/album/perspectives-concertantes/1793146044?app=itunes
-    amazon        https://amazon.com/dp/B0DV5P8V78
+    label         https://label.example.org
+    apple_music   https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939
+    deezer        https://www.deezer.com/album/361794007
+    itunes        https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939?app=itunes
 
 Loaded from Symfony: Symfony\Component\HttpClient, Symfony\Contracts\HttpClient, Symfony\Contracts\Service
 Classes of a framework (DependencyInjection, Config, HttpKernel, HttpFoundation, a bundle, a bridge, Doctrine, Twig): none
@@ -77,8 +75,8 @@ Classes of a framework (DependencyInjection, Config, HttpKernel, HttpFoundation,
 
 Without `--recorded` and without an Odesli key, the same from iTunes alone (the label, Apple
 Music and the iTunes Store). The answers in `recorded/` are the catalogue packages' fixtures:
-iTunes' as answered on 2026-10-03, Odesli's written from what album.link showed that day - the
-API itself answers 401 without a key.
+iTunes' as answered on 2026-11-14, Odesli's written from what album.link and Deezer's API showed
+that day (its Yandex entry invented) - the API itself answers 401 without a key.
 
 `bare --recorded --json` prints the same whole - every class loaded, every file since the
 autoloader - without a call: `Tests/BareTest.php` runs it in a process of its own and checks the

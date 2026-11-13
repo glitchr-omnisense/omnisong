@@ -4,7 +4,7 @@ namespace Omnisong;
 
 /**
  * Where a recording can be listened to or bought. The label comes first:
- * a site shows "released by ES-DUR, buy it there" before "listen on
+ * a site shows "released by Label Exemple, buy it there" before "listen on
  * Spotify". rank() orders a PlatformLinks; fromOdesli() maps song.link's
  * keys; embeddable() says whether Player\Embedder knows an iframe for it.
  */

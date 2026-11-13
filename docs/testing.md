@@ -37,22 +37,22 @@ final class DiscographyTest extends TestCase
     public function testTheReleaseComesFromTheRecordedAnswer(): void
     {
         $answer = new MockResponse(json_encode(['resultCount' => 2, 'results' => [
-                ['wrapperType' => 'collection', 'collectionId' => 42, 'collectionName' => 'Harp - EP', 'artistName' => 'Anaëlle Tourret',
-                 'collectionViewUrl' => 'https://music.apple.com/de/album/harp/42?uo=4', 'copyright' => '℗ 2025 ES-DUR', 'releaseDate' => '2025-02-28T08:00:00Z'],
+                ['wrapperType' => 'collection', 'collectionId' => 42, 'collectionName' => 'Symphonies - EP', 'artistName' => 'Carlos Kleiber',
+                 'collectionViewUrl' => 'https://music.apple.com/de/album/symphonies/42?uo=4', 'copyright' => '℗ 1995 Label Exemple', 'releaseDate' => '2025-02-28T08:00:00Z'],
                 ['wrapperType' => 'track', 'kind' => 'song', 'collectionId' => 42, 'trackId' => 43, 'trackName' => 'Allegro', 'trackNumber' => 1,
                  'discNumber' => 1, 'trackTimeMillis' => 677000, 'previewUrl' => 'https://audio.example/43.m4a'],
             ]]));
         $http = new MockHttpClient([$answer]);
         $itunes = (new ItunesCatalogFactory($http))->create(['country' => 'de']);
 
-        $release = $itunes->release(Reference::upc('4015372820954'));
+        $release = $itunes->release(Reference::upc('028948637751'));
 
-        self::assertSame('Harp', $release->title);
+        self::assertSame('Symphonies', $release->title);
         self::assertSame(Release::EP, $release->type);
-        self::assertSame('ES-DUR', $release->label->name);
+        self::assertSame('Label Exemple', $release->label->name);
         self::assertSame(677, $release->tracks[0]->duration);
-        self::assertSame('https://music.apple.com/de/album/harp/42', $release->links->get(Platform::APPLE_MUSIC)->url);
-        self::assertSame('https://itunes.apple.com/lookup?upc=4015372820954&entity=song&country=de&limit=200', $answer->getRequestUrl());
+        self::assertSame('https://music.apple.com/de/album/symphonies/42', $release->links->get(Platform::APPLE_MUSIC)->url);
+        self::assertSame('https://itunes.apple.com/lookup?upc=028948637751&entity=song&country=de&limit=200', $answer->getRequestUrl());
     }
 
     public function testADownCatalogueIsSkippedAndSaidSo(): void
@@ -66,12 +66,12 @@ final class DiscographyTest extends TestCase
         $known = new class implements CatalogInterface {
             public function getName(): string { return 'known'; }
             public function links(Reference $reference): PlatformLinks { return new PlatformLinks([new PlatformLink(Platform::DEEZER, 'https://www.deezer.com/album/302127')]); }
-            public function release(Reference $reference): ?Release { return new Release('Harp', tracks: [new Track('Allegro', 1)]); }
+            public function release(Reference $reference): ?Release { return new Release('Symphonies', tracks: [new Track('Allegro', 1)]); }
             public function releases(string $artist, int $limit = 50, ?string $country = null): array { return []; }
         };
         $catalog = new Catalog([$down, $known]);
 
-        $release = $catalog->release(Reference::upc('4015372820954'), new Label('ES-DUR', 'https://www.es-dur.de'));
+        $release = $catalog->release(Reference::upc('028948637751'), new Label('Label Exemple', 'https://label.example.org'));
 
         self::assertSame(['down'], $catalog->incomplete);
         self::assertSame(['label', 'deezer'], array_keys($release->links->toArray()));
@@ -108,7 +108,7 @@ The packages' own tests keep real answers as fixtures; an application can reuse 
 
 | File | What |
 |---|---|
-| `omnisong/itunes`: `Tests/Fixtures/lookup-upc.json` | `lookup?upc=4015372820954&entity=song`: the album and its 8 tracks (store `de`, 2026-10-03) |
+| `omnisong/itunes`: `Tests/Fixtures/lookup-upc.json` | `lookup?upc=028948637751&entity=song`: the album and its 8 tracks (store `de`, 2026-11-14) |
 | `omnisong/itunes`: `Tests/Fixtures/lookup-track.json` | a lookup that answers with one track (an ISRC, a track's id) |
 | `omnisong/itunes`: `Tests/Fixtures/search-albums.json` | `search?entity=album&attribute=artistTerm` |
 | `omnisong/odesli`: `Tests/Fixtures/links-album.json` | `links` for the same album, written from what album.link showed |

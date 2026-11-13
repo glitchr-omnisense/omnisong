@@ -64,10 +64,10 @@ final class OmnisongBundleTest extends TestCase
         self::assertSame(['second', 'first'], $listening->catalog->names());
         self::assertSame('first', $listening->first->getName(), 'one catalogue by its argument name');
 
-        $links = $listening->catalog->links(Reference::upc('4015372820954'));
-        self::assertSame(['second links 4015372820954', 'first links 4015372820954'], StubCatalog::$log);
-        self::assertSame('https://second.example/4015372820954', $links->get(Platform::SPOTIFY)?->url);
-        self::assertSame('https://first.example/4015372820954', $links->get(Platform::DEEZER)?->url);
+        $links = $listening->catalog->links(Reference::upc('028948637751'));
+        self::assertSame(['second links 028948637751', 'first links 028948637751'], StubCatalog::$log);
+        self::assertSame('https://second.example/028948637751', $links->get(Platform::SPOTIFY)?->url);
+        self::assertSame('https://first.example/028948637751', $links->get(Platform::DEEZER)?->url);
 
         $embed = $listening->embedder->embed(new PlatformLink(Platform::DEEZER, 'https://www.deezer.com/album/302127'));
         self::assertSame('https://widget.deezer.com/widget/dark/album/302127', $embed?->src, 'the player\'s configured theme');
@@ -79,7 +79,7 @@ final class OmnisongBundleTest extends TestCase
     public function testTheTwigFunctions(): void
     {
         $twig = new Environment(new ArrayLoader([
-            'embed' => '{{ omnisong_embed(url) }}|{{ omnisong_embed(url, {theme: "light", compact: true}) }}|{{ omnisong_embed("https://www.es-dur.de") is null ? "none" }}',
+            'embed' => '{{ omnisong_embed(url) }}|{{ omnisong_embed(url, {theme: "light", compact: true}) }}|{{ omnisong_embed("https://label.example.org") is null ? "none" }}',
             'platform' => '{{ omnisong_platform("apple_music").label }}|{{ "spotify"|omnisong_platform_label }}|{{ "myspace"|omnisong_platform_label }}|{{ omnisong_platform("myspace") is null ? "none" }}',
         ]));
         $twig->addExtension(new OmnisongExtension(new \Omnisong\Player\Embedder(), new EmbedOptions(EmbedOptions::DARK)));

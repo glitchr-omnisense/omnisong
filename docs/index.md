@@ -8,17 +8,17 @@ their previews, a list of `Release`s. Each service is a package of its own (`omn
 `Catalog\Catalog`, asks every configured catalogue in turn and merges what they say.
 
 ```php
-$release = $catalog->release(Reference::upc('4015372820954'), new Label('ES-DUR', 'https://www.es-dur.de'));
+$release = $catalog->release(Reference::upc('028948637751'), new Label('Label Exemple', 'https://label.example.org'));
 
 $release->tracks[0]->previewUrl;                              // 30 seconds, for an <audio> element
-$release->links->first();                                     // ES-DUR, then the stores and streamers in order
+$release->links->first();                                     // Label Exemple, then the stores and streamers in order
 $embedder->embed($release->links->get(Platform::SPOTIFY));    // the platform's own player, as an iframe
-$catalog->releases('Anaëlle Tourret');                        // what an artist put out, newest first
+$catalog->releases('Carlos Kleiber');                        // what an artist put out, newest first
 $catalog->incomplete;                                         // the catalogues that could not be reached
 ```
 
 It is about listening, not publishing (publishing is `omnisense/omnipost`'s job), and it puts the
-label first: a musician's site shows "released by ES-DUR, buy it there" before "listen on Spotify".
+label first: a musician's site shows "released by Label Exemple, buy it there" before "listen on Spotify".
 `PlatformLinks` keep that order (`Platform::rank()`). Besides the catalogues, the core holds the
 `Player\Embedder`, which turns a link into the platform's own iframe from its public embed URL, with
 no key and no call.

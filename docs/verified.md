@@ -23,12 +23,13 @@ PHPUnit 11.5.57, no network: 51 tests, 373 assertions, green.
 - `omnisong/itunes`: a UPC gives the release with its tracks and previews; an Apple Music URL or its
   id the same release; a track's id or an ISRC its album; the links are Apple's; an artist's albums
   newest first; what is not Apple's is not read; 403, 429 and 5xx are unavailable - on answers
-  recorded on 2026-10-03.
+  recorded on 2026-10-03, the running example re-recorded on 2026-11-14.
 - `omnisong/odesli`: a URL gives the album on every platform; a platform's id is asked by platform,
   type and id; the release is title, artist, cover and links without tracks; neither a UPC nor an
   ISRC is read; unknown is empty; 429 says when to come back; down, unreachable or without its key
   is unavailable, naming the key; any other refusal is the provider's error - on an answer written
-  from what album.link showed on 2026-10-03.
+  from what album.link showed on 2026-10-03, rewritten on 2026-11-14 for the new running example
+  from album.link and Deezer's API (its Yandex entry invented).
 
 The examples of these pages were run on 2026-10-26 on the same checkouts, with a `MockHttpClient`
 serving the recorded answers: the embedder's URLs and heights, the aggregator's calls and merge,
@@ -37,7 +38,8 @@ the failures' exceptions, an application's own catalogue, a test case.
 ## What is not verified
 
 - That the services answer today as recorded. iTunes was last called live for these manuals'
-  first version (2026-10-05, the [installation](installation.md) script). song.link's API was
+  first version (2026-10-05, the [installation](installation.md) script) and on 2026-11-14 (the
+  same script and the recordings of the new running example). song.link's API was
   never answered with a key: it answers 401 `PUBLIC_API_ACCESS_DEPRECATED` without one (seen
   2026-10-03), and the Odesli fixture is written from album.link's page, not from an API answer.
 - That each player URL plays: the embed URLs are built from the platforms' public embed formats;

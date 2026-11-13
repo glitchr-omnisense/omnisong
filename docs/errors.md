@@ -43,7 +43,7 @@ message is `[<catalog>] rate limited, retry in <n> s`, or `[<catalog>] rate limi
 
 `NotSupportedException` has two named constructors, whose messages say which:
 `NotSupportedException::reference('odesli', $reference)` (`The "odesli" catalogue cannot look up
-"4015372820954".`) and `NotSupportedException::operation('odesli', "list an artist's releases")`
+"028948637751".`) and `NotSupportedException::operation('odesli', "list an artist's releases")`
 (`The "odesli" catalogue does not list an artist's releases.`).
 
 ## By catalogue

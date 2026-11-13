@@ -32,14 +32,14 @@ use Omnisong\Model\Label;
 use Omnisong\Model\Reference;
 
 $release = $catalog->release(
-    Reference::upc('4015372820954'),
-    new Label('ES-DUR', 'https://www.es-dur.de', 'https://www.es-dur.de/shop/perspectives'),
+    Reference::upc('028948637751'),
+    new Label('Label Exemple', 'https://label.example.org', 'https://label.example.org/shop/symphonies-5-7'),
 );
 
 if (null === $release) {
     // no catalogue knows it (or every one that could was unavailable: check $catalog->incomplete)
 }
-$release->title;          // Perspectives Concertantes
+$release->title;          // Beethoven: Symphonies Nos. 5 & 7
 $release->tracks;         // list<Track>, each with its previewUrl
 $release->links;          // label, shop, then every platform
 ```
@@ -59,12 +59,12 @@ What the aggregator does, in order:
    `links()`, asked as in [Links](#links) by the reference given and what was learnt.
 5. The label given replaces the release's; the label's links go first.
 
-With the recorded answers of the [harness](harness.md) (iTunes' of 2026-10-03, Odesli's written
-from album.link), the calls the script above makes are:
+With the recorded answers of the [harness](harness.md) (iTunes' of 2026-11-14, Odesli's written
+from album.link and Deezer), the calls the script above makes are:
 
 ```
-GET https://itunes.apple.com/lookup?upc=4015372820954&entity=song&country=de&limit=200
-GET https://api.song.link/v1-alpha.1/links?platform=itunes&type=album&id=1793146044&userCountry=DE&key=...
+GET https://itunes.apple.com/lookup?upc=028948637751&entity=song&country=de&limit=200
+GET https://api.song.link/v1-alpha.1/links?platform=itunes&type=album&id=1644892939&userCountry=DE&key=...
 ```
 
 Odesli is first, but cannot read a UPC: its `release()` throws `NotSupportedException` without a
@@ -73,18 +73,16 @@ iTunes'; Odesli, asked for links by the iTunes id iTunes gave, adds the other pl
 result:
 
 ```
-Perspectives Concertantes | album | 4015372820954 | ES-DUR | 8 tracks
-  label         ES-DUR         https://www.es-dur.de
-  shop          ES-DUR         https://www.es-dur.de/shop/perspectives
-  apple_music   Apple Music    https://music.apple.com/de/album/perspectives-concertantes/1793146044
-  tidal         Tidal          https://listen.tidal.com/album/414051173
-  amazon_music  Amazon Music   https://music.amazon.com/albums/B0DV5P8V78
-  itunes        iTunes Store   https://music.apple.com/de/album/perspectives-concertantes/1793146044?app=itunes
-  amazon        Amazon         https://amazon.com/dp/B0DV5P8V78
+Beethoven: Symphonies Nos. 5 & 7 | album | 028948637751 | Label Exemple | 8 tracks
+  label         Label Exemple  https://label.example.org
+  shop          Label Exemple  https://label.example.org/shop/symphonies-5-7
+  apple_music   Apple Music    https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939
+  deezer        Deezer         https://www.deezer.com/album/361794007
+  itunes        iTunes Store   https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939?app=itunes
 incomplete: []
 ```
 
-(run on 2026-10-26 on a `MockHttpClient` serving those files, PHP 8.4). Without a key, song.link
+(run on 2026-11-14 on a `MockHttpClient` serving those files, PHP 8.4). Without a key, song.link
 answers 401: the same calls, Odesli named in `incomplete` (`["odesli"]`), and only the label, shop,
 Apple Music and iTunes Store links.
 
@@ -101,7 +99,7 @@ foreach ($links as $value => $link) {            // 'label' => PlatformLink, 'sp
 }
 $links->get(Platform::DEEZER)?->url;
 $links->toArray();                               // ['label' => 'https://...', 'spotify' => 'https://...']: store it
-PlatformLinks::fromArray($stored, 'ES-DUR');     // and read it back
+PlatformLinks::fromArray($stored, 'Label Exemple');     // and read it back
 ```
 
 Every catalogue is asked `links()` by the reference. One that can read it adds its links; when
@@ -110,14 +108,14 @@ none of the references (Odesli and a UPC or an ISRC) is asked again, once every 
 answered, by the platform ids those links carry - in the links' order, so Apple Music's id before
 the iTunes Store's - as `Reference::id()` of an album: those links name the release that holds the recording (iTunes
 answers an ISRC with its album's links), so `links(Reference::isrc(...))` asks Odesli
-`?platform=appleMusic&type=album&id=1793146044` and gives the album's links on every platform.
+`?platform=appleMusic&type=album&id=1644892939` and gives the album's links on every platform.
 
 The `$label` argument is optional; given, its links go first ([Concepts](concepts.md#links)).
 
 ## An artist's releases
 
 ```php
-foreach ($catalog->releases('Anaëlle Tourret', limit: 10, country: 'de') as $release) {
+foreach ($catalog->releases('Carlos Kleiber', limit: 10, country: 'de') as $release) {
     echo $release->releasedAt?->format('Y'), ' ', $release->title, ' (', $release->type, ")\n";
 }
 ```
@@ -147,10 +145,10 @@ reaches the caller. `$incomplete` is reset at the start of each `links()`, `rele
 
 | To ask about | Build | Read by |
 |---|---|---|
-| a release by its barcode | `Reference::upc('4015372820954')` | iTunes |
+| a release by its barcode | `Reference::upc('028948637751')` | iTunes |
 | a recording | `Reference::isrc('DEA122500001')` | iTunes (its album) |
 | anything with a URL | `Reference::url('https://...')` or `Reference::parse('https://...')` | Odesli (any platform); iTunes (Apple URLs with an id) |
-| a platform's id | `Reference::id(Platform::ITUNES, '1793146044')`, `Reference::id(Platform::SPOTIFY, '4uLU6hMCjMI75M1A2tKUQC', Reference::SONG)` | iTunes (`itunes`, `apple_music`); Odesli (16 platforms) |
+| a platform's id | `Reference::id(Platform::ITUNES, '1644892939')`, `Reference::id(Platform::SPOTIFY, '4uLU6hMCjMI75M1A2tKUQC', Reference::SONG)` | iTunes (`itunes`, `apple_music`); Odesli (16 platforms) |
 | a string a user typed | `Reference::parse($value)` | the kind it reads |
 
 The `country` argument of each constructor is the store asked: it overrides the catalogue's

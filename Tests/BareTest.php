@@ -56,18 +56,18 @@ final class BareTest extends TestCase
         self::assertIsArray($release);
         self::assertIsArray($release['first']);
         self::assertIsArray($release['links']);
-        self::assertSame('Perspectives Concertantes', $release['title']);
+        self::assertSame('Beethoven: Symphonies Nos. 5 & 7', $release['title']);
         self::assertIsString($release['artist']);
-        self::assertStringStartsWith('Anaelle Tourret, NDR Elbphilharmonie Orchester', $release['artist']);
-        self::assertSame(['4015372820954', 'album', '2025-02-28'], [$release['upc'], $release['type'], $release['released']]);
-        self::assertSame('ES-DUR', $release['label'], 'the label given, before the one the store names');
+        self::assertStringStartsWith('Wiener Philharmoniker & Carlos Kleiber', $release['artist']);
+        self::assertSame(['028948637751', 'album', '1995-02-20'], [$release['upc'], $release['type'], $release['released']]);
+        self::assertSame('Label Exemple', $release['label'], 'the label given, before the one the store names');
         self::assertSame([8, 8], [$release['tracks'], $release['previews']]);
         self::assertIsString($release['first']['preview']);
         self::assertStringStartsWith('https://audio-ssl.itunes.apple.com/', $release['first']['preview']);
         self::assertSame('label', array_key_first($release['links']), 'the label first');
-        self::assertSame('https://music.apple.com/de/album/perspectives-concertantes/1793146044', $release['links']['apple_music']);
+        self::assertSame('https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939', $release['links']['apple_music']);
         if (class_exists(OdesliCatalogFactory::class)) {
-            self::assertSame('https://listen.tidal.com/album/414051173', $release['links']['tidal'], 'Odesli asked by the id iTunes found');
+            self::assertSame('https://www.deezer.com/album/361794007', $release['links']['deezer'], 'Odesli asked by the id iTunes found');
         }
         self::assertContains('Symfony\\Component\\HttpClient\\MockHttpClient', self::strings($report['symbols'] ?? null), 'the answers came through the HTTP client given');
         self::assertSame([], self::framework($report), 'no class nor file of a framework');

@@ -2,10 +2,10 @@
 #
 #   cp .env.dist .env                                        # an Odesli key if you have one; iTunes needs none
 #   docker compose run --rm omnisong catalogs                # which catalogues are installed and configured
-#   docker compose run --rm omnisong links 4015372820954 --label ES-DUR --label-url https://www.es-dur.de
-#   docker compose run --rm omnisong release 4015372820954   # the merged release: tracks, previews, links
-#   docker compose run --rm omnisong releases "Brieuc Vourch" --limit 10
-#   docker compose run --rm omnisong embed https://music.apple.com/de/album/perspectives-concertantes/1793146044 --dark
+#   docker compose run --rm omnisong links 028948637751 --label Label Exemple --label-url https://label.example.org
+#   docker compose run --rm omnisong release 028948637751   # the merged release: tracks, previews, links
+#   docker compose run --rm omnisong releases "Carlos Kleiber" --limit 10
+#   docker compose run --rm omnisong embed https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939 --dark
 #   docker compose run --rm omnisong bare                    # plain PHP: no bundle, no container, and what PHP loaded
 #   docker compose run --rm omnisong test                    # every package's tests
 #

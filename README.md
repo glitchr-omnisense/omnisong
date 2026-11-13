@@ -2,7 +2,7 @@
 
 One contract for listening to a musician's catalogue - the Omnibus of records. Listening, not
 publishing: where a recording is, what is on it, the previews and the players, read from the
-services that know it. And the label first: a musician's site shows "released by ES-DUR, buy it
+services that know it. And the label first: a musician's site shows "released by Label Exemple, buy it
 there" before "listen on Spotify".
 
 Published as `omnisense/omnisong` (formerly `glitchr/omnisong`, which this package replaces: a
@@ -10,12 +10,12 @@ Published as `omnisense/omnisong` (formerly `glitchr/omnisong`, which this packa
 `omnisense/` is the vendor of every family's core; the providers keep theirs (`omnisong/itunes`...).
 
 ```php
-$release = $catalog->release(Reference::upc('4015372820954'), new Label('ES-DUR', 'https://www.es-dur.de'));
+$release = $catalog->release(Reference::upc('028948637751'), new Label('Label Exemple', 'https://label.example.org'));
 
 $release->tracks[0]->previewUrl;                 // 30 seconds, for an <audio> element
-$release->links->first();                        // ES-DUR, then the streamers in order
+$release->links->first();                        // Label Exemple, then the streamers in order
 $embedder->embed($release->links->get(Platform::SPOTIFY));   // the platform's own player
-$catalog->releases('Anaëlle Tourret');           // what an artist put out, newest first
+$catalog->releases('Carlos Kleiber');           // what an artist put out, newest first
 ```
 
 This package holds the contract (`CatalogInterface`, `CatalogFactory`, `Registry`), the aggregator
@@ -62,10 +62,10 @@ $registry = new Registry([new ItunesCatalogFactory(HttpClient::create())], [
 ]);
 $catalog = new Catalog($registry->all());
 
-$release = $catalog->release(Reference::upc('4015372820954'), new Label('ES-DUR', 'https://www.es-dur.de'));
-echo $release->title, "\n";                       // Perspectives Concertantes
+$release = $catalog->release(Reference::upc('028948637751'), new Label('Label Exemple', 'https://label.example.org'));
+echo $release->title, "\n";                       // Beethoven: Symphonies Nos. 5 & 7
 echo $release->tracks[0]->previewUrl, "\n";       // 30 seconds, for an <audio> element
-echo $release->links->first()->url, "\n";         // https://www.es-dur.de: the label first
+echo $release->links->first()->url, "\n";         // https://label.example.org: the label first
 ```
 
 No key: the iTunes Search API is open. A factory takes the HTTP client to call with - the
@@ -132,10 +132,10 @@ refuses keyless calls (401) and is skipped, and said so, until `ODESLI_API_KEY` 
 ```sh
 cd docker && cp .env.dist .env
 docker compose run --rm omnisong catalogs                 # which catalogues are installed and configured
-docker compose run --rm omnisong links 4015372820954 --label ES-DUR --label-url https://www.es-dur.de
-docker compose run --rm omnisong release 4015372820954 --label ES-DUR --label-url https://www.es-dur.de   # JSON
-docker compose run --rm omnisong releases "Brieuc Vourch" --limit 10
-docker compose run --rm omnisong embed https://music.apple.com/de/album/perspectives-concertantes/1793146044 --dark
+docker compose run --rm omnisong links 028948637751 --label Label Exemple --label-url https://label.example.org
+docker compose run --rm omnisong release 028948637751 --label Label Exemple --label-url https://label.example.org   # JSON
+docker compose run --rm omnisong releases "Carlos Kleiber" --limit 10
+docker compose run --rm omnisong embed https://music.apple.com/de/album/beethoven-symphonies-nos-5-7/1644892939 --dark
 docker compose run --rm omnisong bare                     # plain PHP: no bundle, no container, and what PHP loaded
 docker compose run --rm omnisong test                     # every package's tests
 ```

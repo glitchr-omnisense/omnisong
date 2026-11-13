@@ -46,7 +46,7 @@ final class PolicyTest extends TestCase
     {
         $registry = self::registry(['first' => ['factory' => 'stub', 'options' => ['name' => 'first'], 'policy' => ['rateLimits' => [['max' => 2, 'window' => 'minute', 'operations' => ['links']]]]]]);
         $catalog = $registry->guarded('first');
-        $reference = Reference::upc('4015372820954');
+        $reference = Reference::upc('028948637751');
 
         $catalog->links($reference);
         $catalog->links($reference);
@@ -59,7 +59,7 @@ final class PolicyTest extends TestCase
             self::assertInstanceOf(OmnisongException::class, $e->getPrevious());
             self::assertGreaterThan(0, $e->retryAfter);
         }
-        self::assertSame(['first links 4015372820954', 'first links 4015372820954'], StubCatalog::$log, 'the third never asked');
+        self::assertSame(['first links 028948637751', 'first links 028948637751'], StubCatalog::$log, 'the third never asked');
         self::assertSame(0, $registry->guard('first')->remaining('links'));
         self::assertNotSame($catalog, $registry->get('first'), 'get() gives the catalogue itself');
     }
@@ -69,7 +69,7 @@ final class PolicyTest extends TestCase
         $registry = self::registry(['first' => ['factory' => 'stub', 'options' => ['name' => 'first'], 'policy' => ['rateLimits' => [['max' => 1, 'window' => 'minute']]]]]);
 
         try {
-            $registry->guarded('first')->releases('Anaëlle Tourret');
+            $registry->guarded('first')->releases('Carlos Kleiber');
             self::fail('The stub lists no releases.');
         } catch (\LogicException) {
         }
@@ -86,9 +86,9 @@ final class PolicyTest extends TestCase
         self::assertInstanceOf(Catalog::class, $catalog);
         self::assertSame(['first', 'second'], $catalog->names());
 
-        $catalog->links(Reference::upc('4015372820954'));
+        $catalog->links(Reference::upc('028948637751'));
         self::assertSame([], $catalog->incomplete);
-        $links = $catalog->links(Reference::upc('4015372820954'));
+        $links = $catalog->links(Reference::upc('028948637751'));
 
         self::assertSame(['first'], $catalog->incomplete, 'skipped, so the half answer is not cached');
         self::assertNull($links->get(Platform::SPOTIFY));
@@ -104,7 +104,7 @@ final class PolicyTest extends TestCase
 
         $this->expectException(RateLimitedException::class);
         try {
-            $registry->guarded('first')->links(Reference::upc('4015372820954'));
+            $registry->guarded('first')->links(Reference::upc('028948637751'));
         } finally {
             self::assertSame([], StubCatalog::$log, 'nothing asked while the wait lasts');
         }
